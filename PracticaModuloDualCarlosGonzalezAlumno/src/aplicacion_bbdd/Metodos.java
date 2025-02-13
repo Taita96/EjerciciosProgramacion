@@ -95,12 +95,12 @@ public class Metodos {
 				+ "código, móvil , teléfono, saldo, actividad_principal, fecha_reembolso, monto_reembolso)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-		boolean detener = true;
+		
 
 		System.out.println("intoducir datos de Clientes: ");
 
-		System.out.print("id_usuario: ");
-		int id = input.nextInt();
+//		System.out.print("id_usuario: ");
+//		int id = input.nextInt();
 		input.nextLine();
 
 		System.out.print("login: ");
@@ -137,7 +137,7 @@ public class Metodos {
 		int telefono = input.nextInt();
 		input.nextLine();
 
-		ps.setInt(1, id);
+		ps.setInt(1, Types.INTEGER);
 		ps.setString(2, login);
 		ps.setString(3, clave);
 		ps.setString(4, nombre);
@@ -155,7 +155,7 @@ public class Metodos {
 
 		ps.executeUpdate();
 
-		detener = Metodos.detener(input);
+	
 		ps.clearParameters();
 
 	}

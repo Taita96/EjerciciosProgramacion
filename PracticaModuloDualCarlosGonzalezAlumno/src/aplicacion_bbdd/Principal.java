@@ -71,8 +71,6 @@ public class Principal {
 						           + "JOIN riders R ON P.id_delivery=R.id_rider "
 						           + "JOIN restaurantes RE ON R.id_rider=RE.id_restaurante";
 					
-					consulta = "SELECT * "
-							   + "";
 					System.out.println(consulta);
 					Metodos.mostrar2Tablas(conexion, consulta);
 
@@ -83,6 +81,9 @@ public class Principal {
 						Metodos.insertarDatosClientes(conexion, input);
 						detener = Metodos.detener(input);
 					} while (detener);
+					break;
+				case 11:
+					consulta = "UPDATE";
 					break;
 
 				default:
