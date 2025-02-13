@@ -61,7 +61,7 @@ public class Principal {
 //				}
 					
 					 consulta = "SELECT * FROM clientes";
-					 Metodos.mostrar1Tabla(conexion, consulta);
+					 Metodos.mostrarTablas(conexion, consulta);
 					 input.nextLine();
 					break;
 				case 5:
@@ -72,7 +72,7 @@ public class Principal {
 						           + "JOIN restaurantes RE ON R.id_rider=RE.id_restaurante";
 					
 					System.out.println(consulta);
-					Metodos.mostrar2Tablas(conexion, consulta);
+					Metodos.mostrarTablas(conexion, consulta);
 
 					break;
 				case 7:

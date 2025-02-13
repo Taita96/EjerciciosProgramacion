@@ -8,67 +8,13 @@ import com.mysql.cj.xdevapi.Type;
 
 public class Metodos {
 
-	static ResultSet mostrarUnaTabla(String datos, Connection conexion) throws SQLException {
-		String consulta = "SELECT * FROM " + datos;
-		PreparedStatement ps = conexion.prepareStatement(consulta);
-		ResultSet res = ps.executeQuery();
-		return res;
-	}
-
-	static ResultSetMetaData mostrarUnaTabla(ResultSet res) throws SQLException {
-		ResultSetMetaData rmd = res.getMetaData();
-		return rmd;
-	}
-
-	static ResultSet mostrarDosTabla(String consulta, Connection conexion) throws SQLException {
-		PreparedStatement ps = conexion.prepareStatement(consulta);
-		ResultSet res = ps.executeQuery();
-		return res;
-	}
-
-	static ResultSetMetaData mostrarDosTabla(ResultSet res) throws SQLException {
-		ResultSetMetaData rmd = res.getMetaData();
-		return rmd;
-	}
-
-	static void msqlFilas(ResultSetMetaData rmd) throws SQLException {
-
-		int columnas = rmd.getColumnCount();
-		int contador = 1;
-		while (contador <= columnas) {
-			System.out.printf("%4s ", rmd.getColumnName(contador));
-			contador++;
-		}
-	}
-
-	static void mostrar1Tabla(Connection conexion, String consulta) throws SQLException {
+	static void mostrarTablas(Connection conexion, String consulta) throws SQLException {
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		ResultSet res = ps.executeQuery();
 		ResultSetMetaData rmd = res.getMetaData();
 		int numFilas = rmd.getColumnCount();
+
 		
-		if (!res.next()) {
-			System.out.println("No hay datos.");
-			return;
-		}
-
-		do {
-			for (int i = 1; i < numFilas; i++) {
-				System.out.println(rmd.getColumnName(i) + ": " + res.getString(i));
-			}
-
-		} while (res.next());
-		System.out.println();
-
-	}
-
-	static void mostrar2Tablas(Connection conexion, String consulta) throws SQLException {
-		PreparedStatement ps = conexion.prepareStatement(consulta);
-		ResultSet res = ps.executeQuery();
-		ResultSetMetaData rmd = res.getMetaData();
-		int numFilas = rmd.getColumnCount();
-		
-		System.out.println(res.getString(1));
 		if (!res.next()) {
 			System.out.println("No hay datos.");
 			return;
@@ -95,12 +41,8 @@ public class Metodos {
 				+ "código, móvil , teléfono, saldo, actividad_principal, fecha_reembolso, monto_reembolso)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-		
 
 		System.out.println("intoducir datos de Clientes: ");
-
-//		System.out.print("id_usuario: ");
-//		int id = input.nextInt();
 		input.nextLine();
 
 		System.out.print("login: ");
@@ -136,7 +78,7 @@ public class Metodos {
 		System.out.print("telefono: ");
 		int telefono = input.nextInt();
 		input.nextLine();
-//hola
+
 		ps.setInt(1, Types.INTEGER);
 		ps.setString(2, login);
 		ps.setString(3, clave);
@@ -155,7 +97,6 @@ public class Metodos {
 
 		ps.executeUpdate();
 
-	
 		ps.clearParameters();
 
 	}
