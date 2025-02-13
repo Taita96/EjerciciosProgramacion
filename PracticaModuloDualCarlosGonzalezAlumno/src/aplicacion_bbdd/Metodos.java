@@ -136,7 +136,7 @@ public class Metodos {
 		System.out.print("telefono: ");
 		int telefono = input.nextInt();
 		input.nextLine();
-
+//hola
 		ps.setInt(1, Types.INTEGER);
 		ps.setString(2, login);
 		ps.setString(3, clave);
