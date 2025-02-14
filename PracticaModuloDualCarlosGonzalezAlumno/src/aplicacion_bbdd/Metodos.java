@@ -4,71 +4,28 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Scanner;
 
-import com.mysql.cj.xdevapi.Type;
-
 public class Metodos {
 
-	static ResultSet mostrarUnaTabla(String datos, Connection conexion) throws SQLException {
-		String consulta = "SELECT * FROM " + datos;
-		PreparedStatement ps = conexion.prepareStatement(consulta);
-		ResultSet res = ps.executeQuery();
-		return res;
+	static int menu(int menu, Scanner input) {
+		System.out.print("Menu de opciones:\n" + "1- Mostrar datos de Clientes\n" + "2- Mostrar datos de Restaurantes\n"
+				+ "3- Mostrar datos de Riders\n" + "4- Mostrar datos de Pedidos\n"
+				+ "5- Mostrar datos de Clientes y Restaurantes\n" + "6- Mostrar datos de Raiders y Pedidos\n"
+				+ "7- Alta de datos en Clientes\n" + "8- Alta de datos en Restaurantes\n"
+				+ "9- Alta de datos en Raiders\n" + "10- Alta de datos en Pedidos\n"
+				+ "11- Modificar datos de Clientes\n" + "12- Modificar datos de Restaurantes\n"
+				+ "13- Modificar datos de Raiders\n" + "14- Modificar datos de Pedidos\n"
+				+ "15- Eliminar datos de Clientes\n" + "16- Eliminar datos de Restaurantes\n"
+				+ "17- Eliminar datos de Raiders\n" + "18- Eliminar datos de Pedidos\n" + "19- Salir\n"
+				+ "Escoge tu opción: ");
+		return menu = input.nextInt();
 	}
 
-	static ResultSetMetaData mostrarUnaTabla(ResultSet res) throws SQLException {
-		ResultSetMetaData rmd = res.getMetaData();
-		return rmd;
-	}
-
-	static ResultSet mostrarDosTabla(String consulta, Connection conexion) throws SQLException {
-		PreparedStatement ps = conexion.prepareStatement(consulta);
-		ResultSet res = ps.executeQuery();
-		return res;
-	}
-
-	static ResultSetMetaData mostrarDosTabla(ResultSet res) throws SQLException {
-		ResultSetMetaData rmd = res.getMetaData();
-		return rmd;
-	}
-
-	static void msqlFilas(ResultSetMetaData rmd) throws SQLException {
-
-		int columnas = rmd.getColumnCount();
-		int contador = 1;
-		while (contador <= columnas) {
-			System.out.printf("%4s ", rmd.getColumnName(contador));
-			contador++;
-		}
-	}
-
-	static void mostrar1Tabla(Connection conexion, String consulta) throws SQLException {
+	static void mostrarTablas(Connection conexion, String consulta) throws SQLException {
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		ResultSet res = ps.executeQuery();
 		ResultSetMetaData rmd = res.getMetaData();
 		int numFilas = rmd.getColumnCount();
-		
-		if (!res.next()) {
-			System.out.println("No hay datos.");
-			return;
-		}
 
-		do {
-			for (int i = 1; i < numFilas; i++) {
-				System.out.println(rmd.getColumnName(i) + ": " + res.getString(i));
-			}
-
-		} while (res.next());
-		System.out.println();
-
-	}
-
-	static void mostrar2Tablas(Connection conexion, String consulta) throws SQLException {
-		PreparedStatement ps = conexion.prepareStatement(consulta);
-		ResultSet res = ps.executeQuery();
-		ResultSetMetaData rmd = res.getMetaData();
-		int numFilas = rmd.getColumnCount();
-		
-		System.out.println(res.getString(1));
 		if (!res.next()) {
 			System.out.println("No hay datos.");
 			return;
@@ -95,12 +52,8 @@ public class Metodos {
 				+ "código, móvil , teléfono, saldo, actividad_principal, fecha_reembolso, monto_reembolso)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-		boolean detener = true;
 
 		System.out.println("intoducir datos de Clientes: ");
-
-		System.out.print("id_usuario: ");
-		int id = input.nextInt();
 		input.nextLine();
 
 		System.out.print("login: ");
@@ -137,7 +90,7 @@ public class Metodos {
 		int telefono = input.nextInt();
 		input.nextLine();
 
-		ps.setInt(1, id);
+		ps.setInt(1, Types.INTEGER);
 		ps.setString(2, login);
 		ps.setString(3, clave);
 		ps.setString(4, nombre);
@@ -155,8 +108,184 @@ public class Metodos {
 
 		ps.executeUpdate();
 
-		detener = Metodos.detener(input);
 		ps.clearParameters();
+
+	}
+
+	static int actualizarTablas(Connection conexion, String consulta, String ubicacion, String modificacion)
+			throws SQLException {
+		PreparedStatement ps = conexion.prepareStatement(consulta);
+
+		ubicacion = "%" + ubicacion + "%";
+		ps.setString(1, modificacion);
+		ps.setString(2, ubicacion);
+		int modificados = ps.executeUpdate();
+		return modificados;
+
+	}
+
+	static int actualizarTablasInt(Connection conexion, String consulta, String ubicacion, int modificar)
+			throws SQLException {
+		PreparedStatement ps = conexion.prepareStatement(consulta);
+
+		ubicacion = "%" + ubicacion + "%";
+		ps.setInt(1, modificar);
+		ps.setString(2, ubicacion);
+		int modificados = ps.executeUpdate();
+		return modificados;
+
+	}
+
+	static int elimanarTablas(Connection conexion, String consulta) throws SQLException {
+		PreparedStatement ps = conexion.prepareStatement(consulta);
+		int modificados = ps.executeUpdate();
+		return modificados;
+	}
+
+	static void actualizarDatosClientes(Scanner input, Connection conexion) throws SQLException {
+		String consulta = new String();
+		String ubicacion = new String();
+		String modificacion = new String();
+
+		int menu = 0, filas = 0, modificar = 0;
+		do {
+			System.out.println("Que quieres modificar: ");
+			System.out.println("1- Clave");
+			System.out.println("2- Nombre");
+			System.out.println("3- Apellido");
+			System.out.println("4- Calle");
+			System.out.println("5- Ciudad");
+			System.out.println("6- Numero");
+			System.out.println("7- Codigo");
+			System.out.println("8- Movil");
+			System.out.println("9- Telenofo");
+			System.out.println("10-salir");
+			System.out.print("elige una opcion: ");
+			menu = input.nextInt();
+
+			switch (menu) {
+			case 1:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar Clave: ");
+				modificacion = input.nextLine();
+
+				consulta = "UPDATE clientes SET clientes.clave = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 2:
+				System.out.print("Ingresa el antiguo nombre de la persona que quieres cambiar el Nombre: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar el Nombre: ");
+				modificacion = input.nextLine();
+
+				consulta = "UPDATE clientes SET clientes.nombre = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 3:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar el apellido: ");
+				modificacion = input.nextLine();
+
+				consulta = "UPDATE clientes SET clientes.apellidos = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 4:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar el calle: ");
+				modificacion = input.nextLine();
+
+				consulta = "UPDATE clientes SET clientes.calle = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 5:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar el ciudad: ");
+				modificacion = input.nextLine();
+
+				consulta = "UPDATE clientes SET clientes.ciudad = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 6:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar el numero de piso: ");
+				modificar = input.nextInt();
+
+				consulta = "UPDATE clientes SET clientes.numero = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 7:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar el numero de codigo postal: ");
+				modificacion = input.nextLine();
+
+				consulta = "UPDATE clientes SET clientes.código = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 8:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar el numero movil: ");
+				modificar = input.nextInt();
+
+				consulta = "UPDATE clientes SET clientes.móvil = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 9:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar el numero teléfono: ");
+				modificar = input.nextInt();
+
+				consulta = "UPDATE clientes SET clientes.teléfono = ? WHERE clientes.nombre LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			default:
+				System.out.println("Opcion incorrecta");
+				break;
+			}
+		} while (menu != 10);
 
 	}
 
