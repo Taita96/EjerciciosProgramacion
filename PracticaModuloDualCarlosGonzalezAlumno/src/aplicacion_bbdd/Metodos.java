@@ -112,6 +112,42 @@ public class Metodos {
 
 	}
 
+	static void insertarDatosRestaurantes (Connection conexion, Scanner input) throws SQLException {
+		String consulta = "INSERT INTO restaurantes (id_restaurante, nombre, calle, numero, ciudad, codigo, movil, telefono"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement ps = conexion.prepareStatement(consulta);
+		
+		System.out.println("Introducir datos de Restaurantes: ");
+		
+		System.out.print("Nombre: ");
+		String nombre = input.nextLine();
+		
+		System.out.print("Calle: ");
+		String calle = input.nextLine();
+		
+		System.out.print("Numero: ");
+		int numero = input.nextInt();
+		
+		System.out.print("Ciudad: ");
+		String ciudad = input.nextLine();
+		
+		System.out.print("Codigo: ");
+		
+		
+		System.out.print("Movil: ");
+		int movil = input.nextInt();
+		
+		System.out.println("Telefono: ");
+		int telefono = input.nextInt();
+		
+		ps.setString(2, nombre);
+		ps.setString(3, calle);
+		ps.setInt(4, numero);
+		ps.setString(5, ciudad);
+		
+		ps.setInt(7, movil);
+		ps.setInt(8, telefono);
+	}
 	static int actualizarTablas(Connection conexion, String consulta, String ubicacion, String modificacion)
 			throws SQLException {
 		PreparedStatement ps = conexion.prepareStatement(consulta);
