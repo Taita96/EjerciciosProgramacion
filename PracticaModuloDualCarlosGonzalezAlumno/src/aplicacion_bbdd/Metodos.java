@@ -107,17 +107,20 @@ public class Metodos {
 		ps.setBigDecimal(15, BigDecimal.ZERO);
 
 		ps.executeUpdate();
-
 		ps.clearParameters();
 
 	}
 
 	static void insertarDatosRestaurantes (Connection conexion, Scanner input) throws SQLException {
-		String consulta = "INSERT INTO restaurantes (id_restaurante, nombre, calle, numero, ciudad, codigo, movil, telefono"
+		String consulta = "INSERT INTO restaurantes(id_restaurante, nombre, calle, numero, ciudad, código, móvil, telefono)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		
 		System.out.println("Introducir datos de Restaurantes: ");
+		
+//		System.out.print("id: ");
+//		int id = input.nextInt();
+		input.nextLine();
 		
 		System.out.print("Nombre: ");
 		String nombre = input.nextLine();
@@ -127,27 +130,37 @@ public class Metodos {
 		
 		System.out.print("Numero: ");
 		int numero = input.nextInt();
+		input.nextLine();
 		
 		System.out.print("Ciudad: ");
 		String ciudad = input.nextLine();
 		
 		System.out.print("Codigo: ");
-		
+		int codigo = input.nextInt();
+		input.nextLine();
 		
 		System.out.print("Movil: ");
 		int movil = input.nextInt();
+		input.nextLine();
 		
-		System.out.println("Telefono: ");
+		System.out.print("Telefono: ");
 		int telefono = input.nextInt();
+		input.nextLine();
 		
+		ps.setString(1, null);
 		ps.setString(2, nombre);
 		ps.setString(3, calle);
 		ps.setInt(4, numero);
 		ps.setString(5, ciudad);
-		
+		ps.setInt(6, codigo);
 		ps.setInt(7, movil);
 		ps.setInt(8, telefono);
+
+		ps.executeUpdate();
+		ps.clearParameters();
+		
 	}
+	
 	static int actualizarTablas(Connection conexion, String consulta, String ubicacion, String modificacion)
 			throws SQLException {
 		PreparedStatement ps = conexion.prepareStatement(consulta);
