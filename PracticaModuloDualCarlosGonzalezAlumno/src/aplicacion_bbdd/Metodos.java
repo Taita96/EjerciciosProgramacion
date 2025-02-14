@@ -14,7 +14,6 @@ public class Metodos {
 		ResultSetMetaData rmd = res.getMetaData();
 		int numFilas = rmd.getColumnCount();
 
-		
 		if (!res.next()) {
 			System.out.println("No hay datos.");
 			return;
@@ -99,6 +98,46 @@ public class Metodos {
 
 		ps.clearParameters();
 
+	}
+
+	static void actualizarTablas(Connection conexion, String consulta) throws SQLException {
+		PreparedStatement ps = conexion.prepareStatement(consulta);
+		ps.executeUpdate();
+
+	}
+
+	static void actualizarDatosClientes(Scanner input, Connection conexion) throws SQLException {
+		String consulta = new String();
+
+		System.out.println("Que quieres modificar: ");
+		System.out.println("1- Clave");
+		System.out.println("2- Nombre");
+		System.out.println("3- Apellido");
+		System.out.println("4- Calle");
+		System.out.println("5- Ciudad");
+		System.out.println("6- Numero");
+		System.out.println("7- Codigo");
+		System.out.println("8- Movil");
+		System.out.println("9- Telenofo");
+		System.out.print("elige una opcion: ");
+		int modificar = input.nextInt();
+
+		switch (modificar) {
+		case 1:
+			System.out.print("Ingresa la persona que quieres cambiar la clave: ");
+			String ubicacion = input.nextLine();
+			input.nextLine();
+			System.out.print("Modificar Clave: ");
+			String modificacion = input.nextLine();
+			input.nextLine();
+
+			consulta = "UPDATE clientes " + "SET clientes.clave=" + modificacion + " WHERE clientes.nombre LIKE '%"+ ubicacion + "%'";
+			Metodos.actualizarTablas(conexion, consulta);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

@@ -44,22 +44,7 @@ public class Principal {
 				menu = input.nextInt();
 				
 				switch (menu) {
-				case 1:
-//					String cliente = "clientes";
-//					
-//					ResultSet res = Metodos.mostrarUnaTabla(cliente, conexion);
-//					ResultSetMetaData rmd = Metodos.mostrarUnaTabla(res);
-//					Metodos.msqlFilas(rmd);
-//										
-//					for (int i = 0; i < columnas; i++) {
-//					System.out.print("=");
-//					System.out.println();
-//				}
-//					
-//				while(res.next()){
-//					
-//				}
-					
+				case 1:					
 					 consulta = "SELECT * FROM clientes";
 					 Metodos.mostrarTablas(conexion, consulta);
 					 input.nextLine();
@@ -71,7 +56,6 @@ public class Principal {
 						           + "JOIN riders R ON P.id_delivery=R.id_rider "
 						           + "JOIN restaurantes RE ON R.id_rider=RE.id_restaurante";
 					
-					System.out.println(consulta);
 					Metodos.mostrarTablas(conexion, consulta);
 
 					break;
@@ -83,7 +67,7 @@ public class Principal {
 					} while (detener);
 					break;
 				case 11:
-					consulta = "UPDATE";
+						Metodos.actualizarDatosClientes(input, conexion);
 					break;
 
 				default:
