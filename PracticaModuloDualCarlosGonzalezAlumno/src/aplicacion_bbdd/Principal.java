@@ -75,7 +75,7 @@ public class Principal {
 					break;
 				}
 				
-				
+				// esto es lo nuevo ahora 14 febrero
 			} while (menu != 10);
 			
 			conexion.close();
