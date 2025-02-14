@@ -75,7 +75,7 @@ public class Principal {
 					break;
 				}
 				
-				// algo nuevo ahora
+				// algo nuevo ahora 1.1
 			} while (menu != 10);
 			
 			conexion.close();
