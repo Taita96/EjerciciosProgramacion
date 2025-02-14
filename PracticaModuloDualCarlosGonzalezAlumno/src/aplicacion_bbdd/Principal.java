@@ -2,60 +2,40 @@ package aplicacion_bbdd;
 
 import java.sql.*;
 import java.util.Scanner;
+
 public class Principal {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		
+
 		String bbdd = "flash_delivery";
 		String user = "root";
 		String pwd = "";
 		String server = "jdbc:mysql://localhost:3306/";
-		Connection conexion= null;
-		
+		Connection conexion = null;
+
 		int menu = 0;
+		int filas = 0;
 		String consulta = new String();
 		System.out.println("Bienvenido a la base de datos");
-		
+
 		try {
-			conexion = DriverManager.getConnection(server + bbdd,user,pwd);
-			
+			conexion = DriverManager.getConnection(server + bbdd, user, pwd);
+
 			do {
-				System.out.print("Menu de opciones:\n"
-						+ "1- Mostrar datos de Clientes\n"
-						+ "2- Mostrar datos de Restaurantes\n"
-						+ "3- Mostrar datos de Riders\n"
-						+ "4- Mostrar datos de Pedidos\n"
-						+ "5- Mostrar datos de Clientes y Restaurantes\n"
-						+ "6- Mostrar datos de Raiders y Pedidos\n"
-						+ "7- Alta de datos en Clientes\n"
-						+ "8- Alta de datos en Restaurantes\n"
-						+ "9- Alta de datos en Raiders\n"
-						+ "10- Alta de datos en Pedidos\n"
-						+ "11- Modificar datos de Clientes\n"
-						+ "12- Modificar datos de Restaurantes\n"
-						+ "13- Modificar datos de Raiders\n"
-						+ "14- Modificar datos de Pedidos\n"
-						+ "15- Eliminar datos de Clientes\n"
-						+ "16- Eliminar datos de Restaurantes\n"
-						+ "17- Eliminar datos de Raiders\n"
-						+ "18- Eliminar datos de Pedidos\n"
-						+ "19- Salir\n"
-						+ "Escoge tu opción: ");
-				menu = input.nextInt();
-				
+				menu = Metodos.menu(menu, input);
 				switch (menu) {
-				case 1:					
-					 consulta = "SELECT * FROM clientes";
-					 Metodos.mostrarTablas(conexion, consulta);
-					 input.nextLine();
+				case 1:
+					consulta = "SELECT * FROM clientes";
+					Metodos.mostrarTablas(conexion, consulta);
+					input.nextLine();
 					break;
 				case 5:
 					System.out.println("Tabla Clientes y Restaurantes");
-					
+
 					consulta = "SELECT * FROM clientes C JOIN pedidos p ON P.id_delivery=C.id_usuario "
-						           + "JOIN riders R ON P.id_delivery=R.id_rider "
-						           + "JOIN restaurantes RE ON R.id_rider=RE.id_restaurante";
-					
+							+ "JOIN riders R ON P.id_delivery=R.id_rider "
+							+ "JOIN restaurantes RE ON R.id_rider=RE.id_restaurante";
+
 					Metodos.mostrarTablas(conexion, consulta);
 
 					break;
@@ -67,17 +47,35 @@ public class Principal {
 					} while (detener);
 					break;
 				case 11:
-						Metodos.actualizarDatosClientes(input, conexion);
+					Metodos.actualizarDatosClientes(input, conexion);
 					break;
-
+				case 15:
+					consulta = "Delete From clientes";
+					filas = Metodos.elimanarTablas(conexion, consulta);
+					System.out.printf("%d tabla(s) elimina(s)%n", filas);
+					break;
+				case 16:
+					consulta = "Delete From restaurantes";
+					filas = Metodos.elimanarTablas(conexion, consulta);
+					System.out.printf("%d tabla(s) elimina(s)%n", filas);
+					break;
+				case 17:
+					consulta = "Delete From raiders";
+					filas = Metodos.elimanarTablas(conexion, consulta);
+					System.out.printf("%d tabla(s) elimina(s)%n", filas);
+					break;
+				case 18:
+					consulta = "Delete From pedidos";
+					filas = Metodos.elimanarTablas(conexion, consulta);
+					System.out.printf("%d tabla(s) elimina(s)%n", filas);
+					break;
 				default:
 					System.out.println("Has introducido una opción incorrecta");
 					break;
 				}
-				
-				// algo nuevo ahora 1.1
+
 			} while (menu != 10);
-			
+
 			conexion.close();
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
