@@ -1,6 +1,5 @@
 package aplicacion_bbdd;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Scanner;
 
@@ -48,9 +47,9 @@ public class Metodos {
 	}
 
 	static void insertarDatosClientes(Connection conexion, Scanner input) throws SQLException {
-		String consulta = "INSERT INTO clientes (id_usuario, login, clave, nombre, apellidos, calle, ciudad, numero,"
-				+ "código, móvil , teléfono, saldo, actividad_principal, fecha_reembolso, monto_reembolso)"
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String consulta = "INSERT INTO clientes (login, clave, nombre, apellidos, calle, ciudad, numero,"
+				+ "código, móvil , teléfono) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 
 		System.out.println("intoducir datos de Clientes: ");
@@ -90,21 +89,17 @@ public class Metodos {
 		int telefono = input.nextInt();
 		input.nextLine();
 
-		ps.setInt(1, Types.INTEGER);
-		ps.setString(2, login);
-		ps.setString(3, clave);
-		ps.setString(4, nombre);
-		ps.setString(5, apellido);
-		ps.setString(6, calle);
-		ps.setString(7, ciudad);
-		ps.setInt(8, numPiso);
-		ps.setInt(9, codPostal);
-		ps.setInt(10, movil);
-		ps.setInt(11, telefono);
-		ps.setBigDecimal(12, BigDecimal.ZERO);
-		ps.setNull(13, Types.VARCHAR);
-		ps.setNull(14, Types.DATE);
-		ps.setBigDecimal(15, BigDecimal.ZERO);
+		
+		ps.setString(1, login);
+		ps.setString(2, clave);
+		ps.setString(3, nombre);
+		ps.setString(4, apellido);
+		ps.setString(5, calle);
+		ps.setString(6, ciudad);
+		ps.setInt(7, numPiso);
+		ps.setInt(8, codPostal);
+		ps.setInt(9, movil);
+		ps.setInt(10, telefono);
 
 		ps.executeUpdate();
 		ps.clearParameters();
