@@ -53,6 +53,13 @@ public class Principal {
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
+				case 10:
+					detener = true;
+					do {
+						Metodos.insertarDatosPedidos(conexion, input);
+						detener = Metodos.detener(input);
+					} while (detener);
+					break;
 				case 11:
 					Metodos.actualizarDatosClientes(input, conexion);
 					break;

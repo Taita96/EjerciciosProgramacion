@@ -112,8 +112,8 @@ public class Metodos {
 	}
 
 	static void insertarDatosRestaurantes (Connection conexion, Scanner input) throws SQLException {
-		String consulta = "INSERT INTO restaurantes(id_restaurante, nombre, calle, numero, ciudad, código, móvil, telefono)"
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String consulta = "INSERT INTO restaurantes(nombre, calle, numero, ciudad, código, móvil, telefono)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		
 		System.out.println("Introducir datos de Restaurantes: ");
@@ -147,14 +147,88 @@ public class Metodos {
 		int telefono = input.nextInt();
 		input.nextLine();
 		
-		ps.setString(1, null);
-		ps.setString(2, nombre);
-		ps.setString(3, calle);
-		ps.setInt(4, numero);
-		ps.setString(5, ciudad);
-		ps.setInt(6, codigo);
-		ps.setInt(7, movil);
-		ps.setInt(8, telefono);
+		ps.setString(1, nombre);
+		ps.setString(2, calle);
+		ps.setInt(3, numero);
+		ps.setString(4, ciudad);
+		ps.setInt(5, codigo);
+		ps.setInt(6, movil);
+		ps.setInt(7, telefono);
+
+		ps.executeUpdate();
+		ps.clearParameters();
+		
+	}
+	
+	static void insertarDatosPedidos(Connection conexion, Scanner input) throws SQLException {
+		String consulta = "INSERT INTO pedidos(nombre_restaurante, total_compra," 
+		+ "fecha_compra, calle_ini, numero_ini, ciudad_ini, codigo_ini,"
+		+ "calle_fin, numero_fin, ciudad_fin, codigo_fin, estado)"
+		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement ps = conexion.prepareStatement(consulta);
+		
+		System.out.println("Introduce datos de pedidos: ");
+		
+		
+//		System.out.print("Id: ");
+//		int id = input.nextInt();
+		
+		System.out.print("Nombre del restaurante: ");
+		String restaurante = input.nextLine();
+		input.nextLine();
+		
+		System.out.print("Total de compra: ");
+		int totalCompra = input.nextInt();
+		input.nextLine();
+		
+		System.out.print("Fecha de compra: ");
+		String fechaCompra = input.nextLine();
+		
+		System.out.print("Calle ini: ");
+		String calleIni = input.nextLine();
+		
+		System.out.print("Numero ini: ");
+		int numeroIni = input.nextInt();
+		input.nextLine();
+		
+		System.out.print("Ciudad ini: ");
+		String ciudadIni = input.nextLine();
+		
+		System.out.print("Codigo ini: ");
+		int codigoIni = input.nextInt();
+		input.nextLine();
+		
+		System.out.print("Calle fin: ");
+		String calleFin = input.nextLine();
+		
+		System.out.print("Numero fin: ");
+		int numeroFin = input.nextInt();
+		input.nextLine();
+		
+		System.out.print("Ciudad fin: ");
+		String ciudadFin = input.nextLine();
+		
+		System.out.print("Codigo final: ");
+		int codigoFin = input.nextInt();
+		input.nextLine();
+		
+		System.out.print("Estado: ");
+		int estado = input.nextInt();
+		input.nextLine();
+		
+//		ps.setInt(1, id_usuario);
+		ps.setString(1, restaurante);
+		ps.setInt(2, totalCompra);
+		ps.setString(3, fechaCompra);
+		ps.setString(4, calleIni);
+		ps.setInt(5, numeroIni);
+		ps.setString(6, ciudadIni);
+		ps.setInt(7, codigoIni);
+		ps.setString(8, calleFin);
+		ps.setInt(9, numeroFin);
+		ps.setString(10, ciudadFin);
+		ps.setInt(11, codigoFin);
+		ps.setInt(12, estado);
 
 		ps.executeUpdate();
 		ps.clearParameters();
