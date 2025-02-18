@@ -113,6 +113,7 @@ public class Metodos {
 	}
 
 	static void insertarDatosRestaurantes (Connection conexion, Scanner input) throws SQLException {
+
 		String consulta = "INSERT INTO restaurantes (id_restaurante, nombre, calle, numero, ciudad, codigo, movil, telefono"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
@@ -147,6 +148,61 @@ public class Metodos {
 		
 		ps.setInt(7, movil);
 		ps.setInt(8, telefono);
+	}
+	
+	static void insertarDatosRiders(Connection conexion, Scanner input) throws SQLException {
+		String consulta = "INSERT INTO riders (nombre, apellidos, identificación,"
+				+ " calle, numero, ciudad, código, móvil, teléfono)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement ps = conexion.prepareStatement(consulta);
+		
+		System.out.println("Introducir datos de Riders: ");
+		input.nextLine();
+		
+		
+		System.out.print("nombre: ");
+		String nombre = input.nextLine();
+	
+		System.out.print("apellidos: ");
+		String apellidos = input.nextLine();
+		
+		System.out.print("identificacion: ");
+		String identificacion = input.nextLine();
+		
+		System.out.print("calle: ");
+		String calle = input.nextLine();
+		
+		System.out.print("numero: ");
+		int numero = input.nextInt();
+		input.nextLine();
+		
+		System.out.print("ciudad: ");
+		String ciudad = input.nextLine();
+		
+		System.out.print("codigo: ");
+		int codigo = input.nextInt();
+		input.nextLine();
+		
+		System.out.print("movil: ");
+		int movil = input.nextInt();
+		input.nextLine();
+		
+		System.out.print("telefono: ");
+		int telefono = input.nextInt();
+		input.nextLine();
+
+		ps.setString(1, nombre);
+		ps.setString(2, apellidos);
+		ps.setString(3, identificacion);
+		ps.setString(4, calle);
+		ps.setInt(5, numero);
+		ps.setString(6, ciudad );
+		ps.setInt(7, codigo);
+		ps.setInt(8, movil);
+		ps.setInt(9, telefono);
+		
+		ps.executeUpdate();
+		ps.clearParameters(); 
 	}
 	static int actualizarTablas(Connection conexion, String consulta, String ubicacion, String modificacion)
 			throws SQLException {

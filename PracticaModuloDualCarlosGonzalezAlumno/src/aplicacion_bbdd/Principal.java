@@ -16,6 +16,7 @@ public class Principal {
 		int menu = 0;
 		int filas = 0;
 		String consulta = new String();
+		boolean detener = true;
 		System.out.println("Bienvenido a la base de datos");
 
 		try {
@@ -25,7 +26,7 @@ public class Principal {
 				menu = Metodos.menu(menu, input);
 				switch (menu) {
 				case 1:
-					consulta = "SELECT * FROM clientes";
+					consulta = "SELECT * FROM clientes"; 
 					Metodos.mostrarTablas(conexion, consulta);
 					input.nextLine();
 					break;
@@ -40,9 +41,16 @@ public class Principal {
 
 					break;
 				case 7:
-					boolean detener = true;
+					detener = true;
 					do {
 						Metodos.insertarDatosClientes(conexion, input);
+						detener = Metodos.detener(input);
+					} while (detener);
+					break;
+				case 9: 
+					detener = true;
+					do {
+						Metodos.insertarDatosRiders(conexion, input);
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
