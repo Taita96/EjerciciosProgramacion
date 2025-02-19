@@ -23,27 +23,26 @@ public class Principal {
 			conexion = DriverManager.getConnection(server + bbdd, user, pwd);
 
 			do {
+				
 				menu = Metodos.menu(menu, input);
+				input.nextLine();
+				
 				switch (menu) {
 				case 1:
 					consulta = "SELECT * FROM clientes"; 
 					Metodos.mostrarTablas(conexion, consulta);
-					input.nextLine();
 					break;
 				case 2:
 					consulta = "SELECT * FROM restaurantes"; 
 					Metodos.mostrarTablas(conexion, consulta);
-					input.nextLine();
 					break;
 				case 3:
 					consulta = "SELECT * FROM pedidos"; 
 					Metodos.mostrarTablas(conexion, consulta);
-					input.nextLine();
 					break;
 				case 4:
 					consulta = "SELECT * FROM riders"; 
 					Metodos.mostrarTablas(conexion, consulta);
-					input.nextLine();
 					break;
 				case 5:
 					System.out.println("Tabla Clientes y Restaurantes");
