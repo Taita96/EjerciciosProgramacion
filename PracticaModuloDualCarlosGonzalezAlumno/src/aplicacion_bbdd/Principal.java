@@ -30,6 +30,21 @@ public class Principal {
 					Metodos.mostrarTablas(conexion, consulta);
 					input.nextLine();
 					break;
+				case 2:
+					consulta = "SELECT * FROM restaurantes"; 
+					Metodos.mostrarTablas(conexion, consulta);
+					input.nextLine();
+					break;
+				case 3:
+					consulta = "SELECT * FROM pedidos"; 
+					Metodos.mostrarTablas(conexion, consulta);
+					input.nextLine();
+					break;
+				case 4:
+					consulta = "SELECT * FROM riders"; 
+					Metodos.mostrarTablas(conexion, consulta);
+					input.nextLine();
+					break;
 				case 5:
 					System.out.println("Tabla Clientes y Restaurantes");
 
@@ -38,7 +53,15 @@ public class Principal {
 							+ "JOIN restaurantes RE ON R.id_rider=RE.id_restaurante";
 
 					Metodos.mostrarTablas(conexion, consulta);
+					break;
+				case 6:
+					System.out.println("Tabla Pedidos y Riders");
 
+					consulta = "SELECT * FROM restaurantes "
+							+ "JOIN riders ON restaurantes.id_restaurante=riders.id_restaurante "
+							+ "JOIN pedidos ON riders.id_delivery=pedidos.id_delivery";
+
+					Metodos.mostrarTablas(conexion, consulta);
 					break;
 				case 7:
 					detener = true;
@@ -47,12 +70,6 @@ public class Principal {
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
-<<<<<<< HEAD
-				case 9: 
-					detener = true;
-					do {
-						Metodos.insertarDatosRiders(conexion, input);
-=======
 				case 8:
 					detener = true;
 					do {
@@ -60,15 +77,24 @@ public class Principal {
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
-				case 10:
+				case 9: 
 					detener = true;
 					do {
 						Metodos.insertarDatosPedidos(conexion, input);
->>>>>>> 858ab186d27d9577244749ba9a9986da1302eecd
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
+				case 10:
+					detener = true;
+					do {
+						Metodos.insertarDatosRiders(conexion, input);
+						detener = Metodos.detener(input);
+					}while (detener);
+					break;
 				case 11:
+					Metodos.actualizarDatosClientes(input, conexion);
+					break;
+				case 12:
 					Metodos.actualizarDatosClientes(input, conexion);
 					break;
 				case 15:
@@ -96,7 +122,7 @@ public class Principal {
 					break;
 				}
 
-			} while (menu != 10);
+			} while (menu != 19);
 
 			conexion.close();
 		} catch (SQLException sqle) {

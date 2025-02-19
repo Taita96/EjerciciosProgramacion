@@ -10,13 +10,14 @@ public class Metodos {
 				+ "3- Mostrar datos de Riders\n" + "4- Mostrar datos de Pedidos\n"
 				+ "5- Mostrar datos de Clientes y Restaurantes\n" + "6- Mostrar datos de Raiders y Pedidos\n"
 				+ "7- Alta de datos en Clientes\n" + "8- Alta de datos en Restaurantes\n"
-				+ "9- Alta de datos en Raiders\n" + "10- Alta de datos en Pedidos\n"
+				+ "9- Alta de datos en Pedidos\n" + "10- Alta de datos en Raiders\n"
 				+ "11- Modificar datos de Clientes\n" + "12- Modificar datos de Restaurantes\n"
 				+ "13- Modificar datos de Raiders\n" + "14- Modificar datos de Pedidos\n"
 				+ "15- Eliminar datos de Clientes\n" + "16- Eliminar datos de Restaurantes\n"
 				+ "17- Eliminar datos de Raiders\n" + "18- Eliminar datos de Pedidos\n" + "19- Salir\n"
 				+ "Escoge tu opción: ");
 		return menu = input.nextInt();
+
 	}
 
 	static void mostrarTablas(Connection conexion, String consulta) throws SQLException {
@@ -107,20 +108,12 @@ public class Metodos {
 	}
 
 	static void insertarDatosRestaurantes (Connection conexion, Scanner input) throws SQLException {
-<<<<<<< HEAD
-
-		String consulta = "INSERT INTO restaurantes (id_restaurante, nombre, calle, numero, ciudad, codigo, movil, telefono"
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-=======
 		String consulta = "INSERT INTO restaurantes(nombre, calle, numero, ciudad, código, móvil, telefono)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
->>>>>>> 858ab186d27d9577244749ba9a9986da1302eecd
+
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		
 		System.out.println("Introducir datos de Restaurantes: ");
-		
-//		System.out.print("id: ");
-//		int id = input.nextInt();
 		input.nextLine();
 		
 		System.out.print("Nombre: ");
@@ -161,12 +154,36 @@ public class Metodos {
 		
 	}
 	
-<<<<<<< HEAD
+
 	static void insertarDatosRiders(Connection conexion, Scanner input) throws SQLException {
-		String consulta = "INSERT INTO riders (nombre, apellidos, identificación,"
+		String consulta = "INSERT INTO riders (id_restaurante, id_delivery, nombre, apellidos, identificación,"
 				+ " calle, numero, ciudad, código, móvil, teléfono)"
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
+		
+		
+		String consulta2=  "Select MAX(id_restaurante) FROM restaurantes";
+		PreparedStatement ps2=  conexion.prepareStatement(consulta2);
+		ResultSet res2= ps2.executeQuery();
+		int idRestaurant = 0;
+		
+		
+		if(res2.next()) {
+			idRestaurant = res2.getInt(1);
+			System.out.println("id restaurantes: "+idRestaurant);
+		}
+		input.nextLine();
+		
+		String consulta3=  "Select MAX(id_delivery) FROM pedidos";
+		PreparedStatement ps3=  conexion.prepareStatement(consulta3);
+		ResultSet res3= ps3.executeQuery();
+		int idDelivery = 0;
+		
+		if(res3.next()) {
+			idDelivery = res3.getInt(1);
+			System.out.println("id pedidos: "+idDelivery);
+		}
+		input.nextLine();
 		
 		System.out.println("Introducir datos de Riders: ");
 		input.nextLine();
@@ -202,37 +219,46 @@ public class Metodos {
 		System.out.print("telefono: ");
 		int telefono = input.nextInt();
 		input.nextLine();
-
-		ps.setString(1, nombre);
-		ps.setString(2, apellidos);
-		ps.setString(3, identificacion);
-		ps.setString(4, calle);
-		ps.setInt(5, numero);
-		ps.setString(6, ciudad );
-		ps.setInt(7, codigo);
-		ps.setInt(8, movil);
-		ps.setInt(9, telefono);
+		
+		ps.setInt(1, idRestaurant);
+		ps.setInt(2, idDelivery);
+		ps.setString(3, nombre);
+		ps.setString(4, apellidos);
+		ps.setString(5, identificacion);
+		ps.setString(6, calle);
+		ps.setInt(7, numero);
+		ps.setString(8, ciudad );
+		ps.setInt(9, codigo);
+		ps.setInt(10, movil);
+		ps.setInt(11, telefono);
 		
 		ps.executeUpdate();
 		ps.clearParameters(); 
 	}
-=======
+
 	static void insertarDatosPedidos(Connection conexion, Scanner input) throws SQLException {
-		String consulta = "INSERT INTO pedidos(nombre_restaurante, total_compra," 
+		String consulta = "INSERT INTO pedidos(nombre_restaurante, id_usuario, total_compra," 
 		+ "fecha_compra, calle_ini, numero_ini, ciudad_ini, codigo_ini,"
 		+ "calle_fin, numero_fin, ciudad_fin, codigo_fin, estado)"
-		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		
+		String consulta2 = "select max(id_usuario) from clientes";
+	    PreparedStatement ps2 = conexion.prepareStatement(consulta2);
+	    ResultSet res = ps2.executeQuery();
+	    int idUsuario = 0;
+	    
+	    if(res.next()){
+	    	idUsuario = res.getInt(1);
+	    }
+	    
+	
+		
 		System.out.println("Introduce datos de pedidos: ");
-		
-		
-//		System.out.print("Id: ");
-//		int id = input.nextInt();
+		input.nextLine();
 		
 		System.out.print("Nombre del restaurante: ");
 		String restaurante = input.nextLine();
-		input.nextLine();
 		
 		System.out.print("Total de compra: ");
 		int totalCompra = input.nextInt();
@@ -273,26 +299,26 @@ public class Metodos {
 		int estado = input.nextInt();
 		input.nextLine();
 		
-//		ps.setInt(1, id_usuario);
 		ps.setString(1, restaurante);
-		ps.setInt(2, totalCompra);
-		ps.setString(3, fechaCompra);
-		ps.setString(4, calleIni);
-		ps.setInt(5, numeroIni);
-		ps.setString(6, ciudadIni);
-		ps.setInt(7, codigoIni);
-		ps.setString(8, calleFin);
-		ps.setInt(9, numeroFin);
-		ps.setString(10, ciudadFin);
-		ps.setInt(11, codigoFin);
-		ps.setInt(12, estado);
+		ps.setInt(2, idUsuario);
+		ps.setInt(3, totalCompra);
+		ps.setString(4, fechaCompra);
+		ps.setString(5, calleIni);
+		ps.setInt(6, numeroIni);
+		ps.setString(7, ciudadIni);
+		ps.setInt(8, codigoIni);
+		ps.setString(9, calleFin);
+		ps.setInt(10, numeroFin);
+		ps.setString(11, ciudadFin);
+		ps.setInt(12, codigoFin);
+		ps.setInt(13, estado);
 
 		ps.executeUpdate();
 		ps.clearParameters();
 		
 	}
 	
->>>>>>> 858ab186d27d9577244749ba9a9986da1302eecd
+
 	static int actualizarTablas(Connection conexion, String consulta, String ubicacion, String modificacion)
 			throws SQLException {
 		PreparedStatement ps = conexion.prepareStatement(consulta);
