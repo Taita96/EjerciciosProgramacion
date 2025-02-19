@@ -47,12 +47,14 @@ public class Principal {
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
-<<<<<<< HEAD
+
 				case 9: 
 					detener = true;
 					do {
 						Metodos.insertarDatosRiders(conexion, input);
-=======
+						detener = Metodos.detener(input);
+					} while (detener);
+					break;
 				case 8:
 					detener = true;
 					do {
@@ -64,12 +66,18 @@ public class Principal {
 					detener = true;
 					do {
 						Metodos.insertarDatosPedidos(conexion, input);
->>>>>>> 858ab186d27d9577244749ba9a9986da1302eecd
+
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
 				case 11:
 					Metodos.actualizarDatosClientes(input, conexion);
+					break;
+				case 12:
+					Metodos.actualizarDatosRestaurante(conexion, input);
+					break;
+				case 13:
+					Metodos.actualizarDatosRiders(conexion, input);
 					break;
 				case 15:
 					consulta = "Delete From clientes";
@@ -96,11 +104,11 @@ public class Principal {
 					break;
 				}
 
-			} while (menu != 10);
+				} while (menu != 10);
 
 			conexion.close();
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
-		}
+		   }
 	}
 }
