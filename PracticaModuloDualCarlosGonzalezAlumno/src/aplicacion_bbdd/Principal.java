@@ -19,6 +19,8 @@ public class Principal {
 		boolean detener = true;
 		System.out.println("Bienvenido a la base de datos");
 
+		
+		
 		try {
 			conexion = DriverManager.getConnection(server + bbdd, user, pwd);
 

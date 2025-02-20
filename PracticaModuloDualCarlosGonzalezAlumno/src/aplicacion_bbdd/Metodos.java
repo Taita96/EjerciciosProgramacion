@@ -2,6 +2,8 @@ package aplicacion_bbdd;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Metodos {
@@ -27,21 +29,24 @@ public class Metodos {
 		ResultSet res = ps.executeQuery();
 		int contador = 0;
 		
-		while (res.next()) {
+		
+		while (res.next()) { 
 			System.out.println((contador+1) + "- " + res.getString(parametro));
 			contador++;
 		}
 		
-		String[] datos = new String[contador];
-		System.out.println("longitud array " + datos.length);
-	
+		ps = conexion.prepareStatement(consulta);
+		res = ps.executeQuery();
 		
-		while (res.next()) {
+		String[] datos = new String[contador];
+		
+		while (res.next()) { 
 			for(int i = 0; i < datos.length; i++) {
-				datos[i] = res.getString(i);
+				datos[i] = res.getString(parametro);
 			}
 		}
 		
+		System.out.println(Arrays.toString(datos));
 		System.out.print("Elige una Opcion: ");
 		int opcion = input.nextInt();
 		opcion = opcion - 1;
@@ -80,7 +85,7 @@ public class Metodos {
 		String consulta = "INSERT INTO clientes (login, clave, nombre, apellidos, calle, ciudad, numero,"
 				+ "código, móvil , teléfono) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-
+		String descripcion = new String();
 		System.out.println("Intoducir datos de Clientes: ");
 
 		System.out.print("Login: ");
@@ -103,8 +108,9 @@ public class Metodos {
 		System.out.print("ciudad: ");
 		String ciudad = input.nextLine();
 
-		System.out.print("Número de piso: ");
-		int numPiso = input.nextInt();
+		descripcion = "Número de piso: ";
+		String numPisoS = Metodos.validarNumero(input, descripcion);
+		int numPiso = Metodos.insertarNumero(numPisoS);
 		input.nextLine();
 
 		System.out.print("Código Postal: ");
@@ -134,7 +140,6 @@ public class Metodos {
 		ps.clearParameters();
 
 	}
-
 
 
 	static void insertarDatosRestaurantes(Connection conexion, Scanner input) throws SQLException {
@@ -1061,6 +1066,35 @@ public class Metodos {
 		
 		} while (menu != 10);
 		
+	}
+	
+	
+	static String validarNumero(Scanner input, String descripcion){
+		
+		boolean detener = false;
+		String esNumero = new String();
+		do {
+			System.out.println(descripcion);
+			String numero = input.nextLine();
+			
+				if(numero.matches("^[0-9]+$")){
+					esNumero += numero;
+					detener = true;
+				}else {
+					detener = false;
+				}
+		} while (!detener);
+		
+		return esNumero;
+	}
+	
+	static int insertarNumero(String numero){
+		int esNumero = 0;
+		if(numero.matches("^[0-9]+$")){
+			esNumero = Integer.parseInt(numero);
+		}
+		
+		return esNumero;
 	}
 	
 }
