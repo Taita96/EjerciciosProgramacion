@@ -28,9 +28,9 @@ public class Metodos {
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		ResultSet res = ps.executeQuery();
 		int contador = 0;
-		
-		
-		while (res.next()) { 
+		String resultado = new String();
+    
+		while (res.next()){ 
 			System.out.println((contador+1) + "- " + res.getString(parametro));
 			contador++;
 		}
@@ -39,18 +39,17 @@ public class Metodos {
 		res = ps.executeQuery();
 		
 		String[] datos = new String[contador];
-		
+
 		while (res.next()) { 
 			for(int i = 0; i < datos.length; i++) {
 				datos[i] = res.getString(parametro);
 			}
 		}
 		
-		System.out.println(Arrays.toString(datos));
 		System.out.print("Elige una Opcion: ");
 		int opcion = input.nextInt();
-		opcion = opcion - 1;
-		return datos[opcion];
+		resultado= datos[opcion];
+		return resultado;
 
 	}
 
@@ -289,7 +288,7 @@ public class Metodos {
 		String parametro = "nombre";
 		System.out.println("Lista de restaurantes para comprar");
 		String restaurante = Metodos.buscarYAgregar(input, conexion, consultaRes, parametro);
-
+		System.out.println(restaurante);
 		System.out.print("Total euros compra: ");
 		int totalCompra = input.nextInt();
 		input.nextLine();
@@ -298,6 +297,7 @@ public class Metodos {
 		String fechaCompra = fecha.toString();
 		
 		System.out.println("Datalles del pedido");
+		
 		System.out.println("Informacion del restaurante");
 
 		System.out.print("Direccion Inicial Calle: ");
@@ -389,7 +389,7 @@ public class Metodos {
 
 		int menu = 0, filas = 0, modificar = 0;
 		do {
-			System.out.println("Que quieres modificar: ");
+			System.out.println("Que quieres modificar en tus datos de cliente: ");
 			System.out.println("1- Clave");
 			System.out.println("2- Nombre");
 			System.out.println("3- Apellido");
