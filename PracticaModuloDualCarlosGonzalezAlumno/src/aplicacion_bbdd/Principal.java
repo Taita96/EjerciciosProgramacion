@@ -129,7 +129,9 @@ public class Principal {
 			} while (menu != 19);
 			conexion.close();
 		} catch (SQLException sqle) {
-			sqle.printStackTrace();
+			sqle.printStackTrace();		
+			System.out.println("La conexion a la base de datos a finalizado:");
+		}
 		   }
-	}
 }
+

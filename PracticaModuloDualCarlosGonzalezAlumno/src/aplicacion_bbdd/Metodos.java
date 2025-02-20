@@ -524,8 +524,13 @@ public class Metodos {
 			
 	}		
 			
+<<<<<<< HEAD
 		
 	static void actualizarDatosPedidos(Scanner input, Connection conexion) throws SQLException {
+=======
+   		
+		static void actualizarDatosPedidos(Scanner input, Connection conexion) throws SQLException {
+>>>>>>> 0a50d664a096b24ad6d76f8a7d2a8cb66b6f3e62
 			String consulta = new String();
 			String ubicacion = new String();
 			String modificacion = new String();
