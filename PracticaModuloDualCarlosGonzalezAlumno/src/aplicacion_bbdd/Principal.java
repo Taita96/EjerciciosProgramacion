@@ -69,17 +69,6 @@ public class Principal {
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
-<<<<<<< HEAD
-
-				case 9: 
-					detener = true;
-					do {
-						Metodos.insertarDatosRiders(conexion, input);
-						detener = Metodos.detener(input);
-					} while (detener);
-					break;
-=======
->>>>>>> cf414298e47cce3097bdab7a5e1856424b39de6f
 				case 8:
 					detener = true;
 					do {
@@ -91,10 +80,6 @@ public class Principal {
 					detener = true;
 					do {
 						Metodos.insertarDatosPedidos(conexion, input);
-<<<<<<< HEAD
-
-=======
->>>>>>> cf414298e47cce3097bdab7a5e1856424b39de6f
 						detener = Metodos.detener(input);
 					} while (detener);
 					break;
@@ -109,14 +94,11 @@ public class Principal {
 					Metodos.actualizarDatosClientes(input, conexion);
 					break;
 				case 12:
-<<<<<<< HEAD
 					Metodos.actualizarDatosRestaurante(conexion, input);
 					break;
 				case 13:
 					Metodos.actualizarDatosRiders(conexion, input);
-=======
 					Metodos.actualizarDatosClientes(input, conexion);
->>>>>>> cf414298e47cce3097bdab7a5e1856424b39de6f
 					break;
 				case 15:
 					consulta = "Delete From clientes";
@@ -142,12 +124,7 @@ public class Principal {
 					System.out.println("Has introducido una opción incorrecta");
 					break;
 				}
-
-<<<<<<< HEAD
-				} while (menu != 10);
-=======
 			} while (menu != 19);
->>>>>>> cf414298e47cce3097bdab7a5e1856424b39de6f
 
 			conexion.close();
 		} catch (SQLException sqle) {

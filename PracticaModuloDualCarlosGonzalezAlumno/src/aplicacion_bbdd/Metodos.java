@@ -137,17 +137,9 @@ public class Metodos {
 
 	}
 
-<<<<<<< HEAD
-	static void insertarDatosRestaurantes(Connection conexion, Scanner input) throws SQLException {
-=======
-	static void insertarDatosRestaurantes (Connection conexion, Scanner input) throws SQLException {
-<<<<<<< HEAD
 
-		String consulta = "INSERT INTO restaurantes (nombre, calle, numero, ciudad, código, móvil, telefono)"
-=======
->>>>>>> b4a1534f0d951c138c086dac0b48d55c842b15ac
+	static void insertarDatosRestaurantes(Connection conexion, Scanner input) throws SQLException {
 		String consulta = "INSERT INTO restaurantes(nombre, calle, numero, ciudad, código, móvil, telefono)"
->>>>>>> cf414298e47cce3097bdab7a5e1856424b39de6f
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		PreparedStatement ps = conexion.prepareStatement(consulta);
@@ -191,14 +183,6 @@ public class Metodos {
 		ps.clearParameters();
 
 	}
-<<<<<<< HEAD
-=======
-	
-<<<<<<< HEAD
-=======
->>>>>>> b4a1534f0d951c138c086dac0b48d55c842b15ac
-
->>>>>>> cf414298e47cce3097bdab7a5e1856424b39de6f
 	static void insertarDatosRiders(Connection conexion, Scanner input) throws SQLException {
 		String consulta = "INSERT INTO riders (id_restaurante, id_delivery, nombre, apellidos, identificación,"
 				+ " calle, numero, ciudad, código, móvil, teléfono)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
