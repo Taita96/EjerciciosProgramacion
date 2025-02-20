@@ -466,7 +466,7 @@ public class Metodos {
 			
 	}		
 			
-		
+   		
 		static void actualizarDatosPedidos(Scanner input, Connection conexion) throws SQLException {
 			String consulta = new String();
 			String ubicacion = new String();

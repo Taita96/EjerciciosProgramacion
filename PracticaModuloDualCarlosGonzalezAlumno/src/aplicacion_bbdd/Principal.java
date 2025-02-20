@@ -106,6 +106,9 @@ public class Principal {
 			conexion.close();
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
+			
+			System.out.println("La conexion a la base de datos a finalizado:");
+		
 		}
 	}
 }
