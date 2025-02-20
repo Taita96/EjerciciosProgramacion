@@ -140,11 +140,6 @@ public class Metodos {
 
 
 	static void insertarDatosRestaurantes(Connection conexion, Scanner input) throws SQLException {
-
-
-	static void insertarDatosRestaurantes(Connection conexion, Scanner input) throws SQLException {
-
-
 		String consulta = "INSERT INTO restaurantes(nombre, calle, numero, ciudad, código, móvil, telefono)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
