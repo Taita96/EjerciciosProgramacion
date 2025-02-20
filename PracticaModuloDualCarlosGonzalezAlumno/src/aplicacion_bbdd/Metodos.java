@@ -523,20 +523,15 @@ public class Metodos {
 		} while (menu != 10);
 			
 	}		
-			
-<<<<<<< HEAD
-		
+				
 	static void actualizarDatosPedidos(Scanner input, Connection conexion) throws SQLException {
-=======
-   		
-		static void actualizarDatosPedidos(Scanner input, Connection conexion) throws SQLException {
->>>>>>> 0a50d664a096b24ad6d76f8a7d2a8cb66b6f3e62
 			String consulta = new String();
 			String ubicacion = new String();
 			String modificacion = new String();
-
+			
+			double modificarD= 0;
 			int menu = 0, filas = 0;
-			double modificarD;
+			
 			do {
 				System.out.println("Que quieres modificar: ");
 				System.out.println("1- Nombre del Restaurante");
