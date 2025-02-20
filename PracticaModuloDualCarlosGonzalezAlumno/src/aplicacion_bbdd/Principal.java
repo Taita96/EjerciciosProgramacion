@@ -93,6 +93,8 @@ public class Principal {
 				case 11:
 					Metodos.actualizarDatosClientes(input, conexion);
 					break;
+				case 14:
+					Metodos.actualizarDatosPedidos(input, conexion);
 				case 12:
 					Metodos.actualizarDatosRestaurante(conexion, input);
 					break;
@@ -125,7 +127,6 @@ public class Principal {
 					break;
 				}
 			} while (menu != 19);
-
 			conexion.close();
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
