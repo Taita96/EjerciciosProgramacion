@@ -295,17 +295,11 @@ public class Metodos {
 		String parametro = "nombre";
 		System.out.println("Lista de restaurantes para comprar");
 		String restaurante = Metodos.buscarYAgregar(input, conexion, consultaRes, parametro);
-<<<<<<< HEAD
 
 		descripcionTotalCompra = "Total euros compra: ";
 		String totalCompraS = validarNumero(input, descripcionTotalCompra);
 		int totalCompra = insertarNumero(totalCompraS);
-=======
 		System.out.println(restaurante);
-		System.out.print("Total euros compra: ");
-		int totalCompra = input.nextInt();
-		input.nextLine();
->>>>>>> main
 
 		LocalDate fecha = LocalDate.now();
 		String fechaCompra = fecha.toString();
@@ -346,10 +340,6 @@ public class Metodos {
 		descripcionEstado = "Estado: ";
 		String estadoS = validarNumero(input, descripcionEstado);
 		int estado = insertarNumero(estadoS);
-		
-		if (estado > 1 || (estado < 0)) {
-			System.out.println("El estado tiene que ser entre 0 y 1");
-		}
 		
 		
 		ps.setString(1, restaurante);
