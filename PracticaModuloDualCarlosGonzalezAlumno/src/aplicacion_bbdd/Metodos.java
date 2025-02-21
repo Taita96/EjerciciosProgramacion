@@ -1106,5 +1106,12 @@ public class Metodos {
 		
 		return esNumero;
 	}
+<<<<<<< HEAD
+
+	static void codPostal(int codPostal){
 		
+	}
+=======
+		
+>>>>>>> main
 }
