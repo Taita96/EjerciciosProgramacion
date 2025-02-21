@@ -2,8 +2,6 @@ package aplicacion_bbdd;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Metodos {
@@ -15,7 +13,7 @@ public class Metodos {
 				+ "7- Alta de datos en Clientes\n" + "8- Alta de datos en Restaurantes\n"
 				+ "9- Alta de datos en Pedidos\n" + "10- Alta de datos en Raiders\n"
 				+ "11- Modificar datos de Clientes\n" + "12- Modificar datos de Restaurantes\n"
-				+ "13- Modificar datos de Raiders\n" + "14- Modificar datos de Pedidos\n"
+				+ "13- Modificar datos de Pedidos\n" + "14- Modificar datos de Raiders\n"
 				+ "15- Eliminar datos de Clientes\n" + "16- Eliminar datos de Restaurantes\n"
 				+ "17- Eliminar datos de Raiders\n" + "18- Eliminar datos de Pedidos\n" + "19- Salir\n"
 				+ "Escoge tu opción: ");
