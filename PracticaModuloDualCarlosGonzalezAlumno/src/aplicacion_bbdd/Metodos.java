@@ -85,7 +85,8 @@ public class Metodos {
 		String consulta = "INSERT INTO clientes (login, clave, nombre, apellidos, calle, ciudad, numero,"
 				+ "código, móvil , teléfono) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-		String descripcion = new String();
+		String descripcionPiso = new String(); String descripcionCodPostal = new String();
+		String descripcionMovil = new String(); String descripcionTelefono = new String();
 		System.out.println("Intoducir datos de Clientes: ");
 
 		System.out.print("Login: ");
@@ -108,22 +109,21 @@ public class Metodos {
 		System.out.print("ciudad: ");
 		String ciudad = input.nextLine();
 
-		descripcion = "Número de piso: ";
-		String numPisoS = Metodos.validarNumero(input, descripcion);
-		int numPiso = Metodos.insertarNumero(numPisoS);
-		input.nextLine();
+		descripcionPiso = "Número de piso: ";
+		String numPisoS = validarNumero(input, descripcionPiso);
+		int numPiso = insertarNumero(numPisoS);
+		
+		descripcionCodPostal = "Código Postal: ";
+		String codPostalS = validarNumero(input, descripcionCodPostal);
+		int codPostal = insertarNumero(codPostalS);
 
-		System.out.print("Código Postal: ");
-		int codPostal = input.nextInt();
-		input.nextLine();
+		descripcionMovil = "Número movil: ";
+		String movilS = validarNumero(input, descripcionMovil);
+		int movil = insertarNumero(movilS);
 
-		System.out.print("Número movil: ");
-		int movil = input.nextInt();
-		input.nextLine();
-
-		System.out.print("Número de telefono: ");
-		int telefono = input.nextInt();
-		input.nextLine();
+		descripcionTelefono = "Número de telefono: ";
+		String telefonoS = validarNumero(input, descripcionTelefono);
+		int telefono = insertarNumero(telefonoS);
 
 		ps.setString(1, login);
 		ps.setString(2, clave);
@@ -141,12 +141,14 @@ public class Metodos {
 
 	}
 
-
 	static void insertarDatosRestaurantes(Connection conexion, Scanner input) throws SQLException {
 		String consulta = "INSERT INTO restaurantes(nombre, calle, numero, ciudad, código, móvil, telefono)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		PreparedStatement ps = conexion.prepareStatement(consulta);
+		
+		String descripcionNumero = new String(); String descripcionCodigo = new String();
+		String descripcionMovil = new String(); String descripcionTelefono = new String();
 
 		System.out.println("Introducir datos de Restaurantes: ");
 
@@ -156,24 +158,24 @@ public class Metodos {
 		System.out.print("Ubicacion de la calle: ");
 		String calle = input.nextLine();
 
-		System.out.print("Número de portal: ");
-		int numero = input.nextInt();
-		input.nextLine();
+		descripcionNumero = "Número de portal: ";
+		String numeroS = validarNumero(input, descripcionNumero);
+		int numero = insertarNumero(numeroS);
 
 		System.out.print("Ciudad: ");
 		String ciudad = input.nextLine();
 
-		System.out.print("Código postal: ");
-		int codigo = input.nextInt();
-		input.nextLine();
+		descripcionCodigo = "Código postal: ";
+		String codigoS = validarNumero(input, descripcionCodigo);
+		int codigo = insertarNumero(codigoS);
 
-		System.out.print("Número Movil: ");
-		int movil = input.nextInt();
-		input.nextLine();
+		descripcionMovil = "Número Movil: ";
+		String movilS = validarNumero(input, descripcionMovil);
+		int movil = insertarNumero(movilS);
 
-		System.out.print("Número de Telefono: ");
-		int telefono = input.nextInt();
-		input.nextLine();
+		descripcionTelefono = "Número de Telefono: ";
+		String telefonoS = validarNumero(input, descripcionTelefono);
+		int telefono = insertarNumero(telefonoS);
 
 		ps.setString(1, nombre);
 		ps.setString(2, calle);
@@ -192,6 +194,9 @@ public class Metodos {
 		String consulta = "INSERT INTO riders (id_restaurante, id_delivery, nombre, apellidos, identificación,"
 				+ " calle, numero, ciudad, código, móvil, teléfono)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
+		
+		String descripcionNumeroPiso = new String(); String descripcionCodigo = new String();
+		String descripcionMovil = new String(); String descripcionTelefono = new String();
 
 		String consulta2 = "Select MAX(id_restaurante) FROM restaurantes";
 		PreparedStatement ps2 = conexion.prepareStatement(consulta2);
@@ -231,24 +236,24 @@ public class Metodos {
 		System.out.print("Calle: ");
 		String calle = input.nextLine();
 
-		System.out.print("Número de piso: ");
-		int numero = input.nextInt();
-		input.nextLine();
-
+		descripcionNumeroPiso = "Número de piso: ";
+		String numeroPisoS = validarNumero(input, descripcionNumeroPiso);
+		int numeroPiso = insertarNumero(numeroPisoS);
+		
 		System.out.print("Ciudad: ");
 		String ciudad = input.nextLine();
 
-		System.out.print("Código postal: ");
-		int codigo = input.nextInt();
-		input.nextLine();
+		descripcionCodigo = "Código postal: ";
+		String codigoS = validarNumero(input, descripcionCodigo);
+		int codigo = insertarNumero(codigoS);
 
-		System.out.print("movil: ");
-		int movil = input.nextInt();
-		input.nextLine();
+		descripcionMovil = "Número Movil: ";
+		String movilS = validarNumero(input, descripcionMovil);
+		int movil = insertarNumero(movilS);
 
-		System.out.print("telefono: ");
-		int telefono = input.nextInt();
-		input.nextLine();
+		descripcionTelefono = "Número de Telefono: ";
+		String telefonoS = validarNumero(input, descripcionTelefono);
+		int telefono = insertarNumero(telefonoS);
 
 		ps.setInt(1, idRestaurant);
 		ps.setInt(2, idDelivery);
@@ -256,7 +261,7 @@ public class Metodos {
 		ps.setString(4, apellidos);
 		ps.setString(5, identificacion);
 		ps.setString(6, calle);
-		ps.setInt(7, numero);
+		ps.setInt(7, numeroPiso);
 		ps.setString(8, ciudad);
 		ps.setInt(9, codigo);
 		ps.setInt(10, movil);
@@ -274,6 +279,10 @@ public class Metodos {
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		
+		String descripcionTotalCompra= new String(); String descripcionNumeroInicial = new String();
+		String descripcionCodigoInicial = new String(); String descripcionNumeroFinal = new String();
+		String descripcionCodigoFinal = new String(); String descripcionEstado = new String();
+		
 		String consulta2 = "select max(id_usuario) from clientes";
 		PreparedStatement ps2 = conexion.prepareStatement(consulta2);
 		ResultSet res2 = ps2.executeQuery();
@@ -290,9 +299,9 @@ public class Metodos {
 		System.out.println("Lista de restaurantes para comprar");
 		String restaurante = Metodos.buscarYAgregar(input, conexion, consultaRes, parametro);
 
-		System.out.print("Total euros compra: ");
-		int totalCompra = input.nextInt();
-		input.nextLine();
+		descripcionTotalCompra = "Total euros compra: ";
+		String totalCompraS = validarNumero(input, descripcionTotalCompra);
+		int totalCompra = insertarNumero(totalCompraS);
 
 		LocalDate fecha = LocalDate.now();
 		String fechaCompra = fecha.toString();
@@ -303,34 +312,39 @@ public class Metodos {
 		System.out.print("Direccion Inicial Calle: ");
 		String calleIni = input.nextLine();
 
-		System.out.print("Numero ini: ");
-		int numeroIni = input.nextInt();
-		input.nextLine();
+		descripcionNumeroInicial = "Numero ini: ";
+		String numeroInicialS = validarNumero(input, descripcionNumeroInicial);
+		int numeroInicial = insertarNumero(numeroInicialS);
 
 		System.out.print("Ciudad ini: ");
 		String ciudadIni = input.nextLine();
 
-		System.out.print("Codigo ini: ");
-		int codigoIni = input.nextInt();
-		input.nextLine();
+		descripcionCodigoInicial = "Codigo ini: ";
+		String codigoInicialS = validarNumero(input, descripcionCodigoInicial);
+		int codigoInicial = insertarNumero(codigoInicialS);
 
 		System.out.print("Calle fin: ");
 		String calleFin = input.nextLine();
 
-		System.out.print("Numero fin: ");
-		int numeroFin = input.nextInt();
-		input.nextLine();
+		descripcionNumeroFinal = "Numero fin: ";
+		String numeroFinalS = validarNumero(input, descripcionNumeroFinal);
+		int numeroFinal = insertarNumero(numeroFinalS);
+		
 
-		System.out.print("Ciudad fin: ");
+		System.out.print("Ciudad final: ");
 		String ciudadFin = input.nextLine();
 
-		System.out.print("Codigo final: ");
-		int codigoFin = input.nextInt();
-		input.nextLine();
+		descripcionCodigoFinal = "Codigo final: ";
+		String codigoFinalS = validarNumero(input, descripcionCodigoFinal);
+		int codigoFinal = insertarNumero(codigoFinalS);
 
-		System.out.print("Estado: ");
-		int estado = input.nextInt();
-		input.nextLine();
+		descripcionEstado = "Estado: ";
+		String estadoS = validarNumero(input, descripcionEstado);
+		int estado = insertarNumero(estadoS);
+		
+		if (estado > 1 || (estado < 0)) {
+			System.out.println("El estado tiene que ser entre 0 y 1");
+		}
 		
 		
 		ps.setString(1, restaurante);
@@ -338,13 +352,13 @@ public class Metodos {
 		ps.setInt(3, totalCompra);
 		ps.setString(4, fechaCompra);
 		ps.setString(5, calleIni);
-		ps.setInt(6, numeroIni);
+		ps.setInt(6, numeroInicial);
 		ps.setString(7, ciudadIni);
-		ps.setInt(8, codigoIni);
+		ps.setInt(8, codigoInicial);
 		ps.setString(9, calleFin);
-		ps.setInt(10, numeroFin);
+		ps.setInt(10, numeroFinal);
 		ps.setString(11, ciudadFin);
-		ps.setInt(12, codigoFin);
+		ps.setInt(12, codigoFinal);
 		ps.setInt(13, estado);
 
 		ps.executeUpdate();
@@ -386,7 +400,7 @@ public class Metodos {
 		String consulta = new String();
 		String ubicacion = new String();
 		String modificacion = new String();
-
+		
 		int menu = 0, filas = 0, modificar = 0;
 		do {
 			System.out.println("Que quieres modificar: ");
@@ -474,6 +488,7 @@ public class Metodos {
 				ubicacion = input.nextLine();
 				input.nextLine();
 				System.out.print("\nModificar el numero de piso: ");
+				
 				modificar = input.nextInt();
 
 				consulta = "UPDATE clientes SET clientes.numero = ? WHERE clientes.nombre LIKE ?";
@@ -486,7 +501,7 @@ public class Metodos {
 				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
 				ubicacion = input.nextLine();
 				input.nextLine();
-				System.out.print("\nModificar el numero de codigo postal: ");
+				System.out.println("\nModificar el numero de codigo postal: ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE clientes SET clientes.código = ? WHERE clientes.nombre LIKE ?";
@@ -1068,13 +1083,12 @@ public class Metodos {
 		
 	}
 	
-	
 	static String validarNumero(Scanner input, String descripcion){
 		
 		boolean detener = false;
 		String esNumero = new String();
 		do {
-			System.out.println(descripcion);
+			System.out.print(descripcion);
 			String numero = input.nextLine();
 			
 				if(numero.matches("^[0-9]+$")){
@@ -1083,6 +1097,7 @@ public class Metodos {
 				}else {
 					detener = false;
 				}
+				
 		} while (!detener);
 		
 		return esNumero;
@@ -1096,5 +1111,5 @@ public class Metodos {
 		
 		return esNumero;
 	}
-	
+		
 }
