@@ -18,7 +18,8 @@ public class Principal {
 		String consulta = new String();
 		boolean detener = true;
 		System.out.println("Bienvenido a la base de datos");
-
+		
+		
 		
 		
 		try {
