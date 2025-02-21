@@ -27,26 +27,27 @@ public class Metodos {
 		ResultSet res = ps.executeQuery();
 		int contador = 0;
 		String resultado = new String();
-    
-		while (res.next()){ 
-			System.out.println((contador+1) + "- " + res.getString(parametro));
+
+		while (res.next()) {
+			System.out.println((contador + 1) + "- " + res.getString(parametro));
 			contador++;
 		}
-		
+
 		ps = conexion.prepareStatement(consulta);
 		res = ps.executeQuery();
-		
+
 		String[] datos = new String[contador];
 
-		while (res.next()) { 
-			for(int i = 0; i < datos.length; i++) {
+		while (res.next()) {
+			for (int i = 0; i < datos.length; i++) {
 				datos[i] = res.getString(parametro);
 			}
 		}
-		
+
 		System.out.print("Elige una Opcion: ");
 		int opcion = input.nextInt();
-		resultado= datos[opcion];
+		opcion = opcion - 1;
+		resultado = datos[opcion];
 		return resultado;
 
 	}
@@ -73,7 +74,7 @@ public class Metodos {
 	}
 
 	static boolean detener(Scanner input) {
-		System.out.print("¿Deseas continuar agregando datos? [S/N]");
+		System.out.print("¿Deseas continuar agregando datos? [S/N]: ");
 		boolean sn = input.nextLine().toLowerCase().startsWith("s");
 		return sn;
 	}
@@ -82,8 +83,10 @@ public class Metodos {
 		String consulta = "INSERT INTO clientes (login, clave, nombre, apellidos, calle, ciudad, numero,"
 				+ "código, móvil , teléfono) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-		String descripcionPiso = new String(); String descripcionCodPostal = new String();
-		String descripcionMovil = new String(); String descripcionTelefono = new String();
+		String descripcionPiso = new String();
+		String descripcionCodPostal = new String();
+		String descripcionMovil = new String();
+		String descripcionTelefono = new String();
 		System.out.println("Intoducir datos de Clientes: ");
 
 		System.out.print("Login: ");
@@ -106,10 +109,10 @@ public class Metodos {
 		System.out.print("ciudad: ");
 		String ciudad = input.nextLine();
 
-		descripcionPiso = "Número de piso: ";
+		descripcionPiso = "Número de portal: ";
 		String numPisoS = validarNumero(input, descripcionPiso);
 		int numPiso = insertarNumero(numPisoS);
-		
+
 		descripcionCodPostal = "Código Postal: ";
 		String codPostalS = validarNumero(input, descripcionCodPostal);
 		int codPostal = insertarNumero(codPostalS);
@@ -143,9 +146,11 @@ public class Metodos {
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-		
-		String descripcionNumero = new String(); String descripcionCodigo = new String();
-		String descripcionMovil = new String(); String descripcionTelefono = new String();
+
+		String descripcionNumero = new String();
+		String descripcionCodigo = new String();
+		String descripcionMovil = new String();
+		String descripcionTelefono = new String();
 
 		System.out.println("Introducir datos de Restaurantes: ");
 
@@ -191,9 +196,11 @@ public class Metodos {
 		String consulta = "INSERT INTO riders (id_restaurante, id_delivery, nombre, apellidos, identificación,"
 				+ " calle, numero, ciudad, código, móvil, teléfono)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-		
-		String descripcionNumeroPiso = new String(); String descripcionCodigo = new String();
-		String descripcionMovil = new String(); String descripcionTelefono = new String();
+
+		String descripcionNumeroPiso = new String();
+		String descripcionCodigo = new String();
+		String descripcionMovil = new String();
+		String descripcionTelefono = new String();
 
 		String consulta2 = "Select MAX(id_restaurante) FROM restaurantes";
 		PreparedStatement ps2 = conexion.prepareStatement(consulta2);
@@ -236,7 +243,7 @@ public class Metodos {
 		descripcionNumeroPiso = "Número de piso: ";
 		String numeroPisoS = validarNumero(input, descripcionNumeroPiso);
 		int numeroPiso = insertarNumero(numeroPisoS);
-		
+
 		System.out.print("Ciudad: ");
 		String ciudad = input.nextLine();
 
@@ -269,17 +276,19 @@ public class Metodos {
 	}
 
 	static void insertarDatosPedidos(Connection conexion, Scanner input) throws SQLException {
-		
+
 		String consulta = "INSERT INTO pedidos(nombre_restaurante, id_usuario, total_compra,"
 				+ "fecha_compra, calle_ini, numero_ini, ciudad_ini, codigo_ini,"
 				+ "calle_fin, numero_fin, ciudad_fin, codigo_fin, estado)"
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps = conexion.prepareStatement(consulta);
-		
-		String descripcionTotalCompra= new String(); String descripcionNumeroInicial = new String();
-		String descripcionCodigoInicial = new String(); String descripcionNumeroFinal = new String();
-		String descripcionCodigoFinal = new String(); String descripcionEstado = new String();
-		
+
+		String descripcionTotalCompra = new String();
+		String descripcionNumeroInicial = new String();
+		String descripcionCodigoInicial = new String();
+		String descripcionNumeroFinal = new String();
+		String descripcionCodigoFinal = new String();
+
 		String consulta2 = "select max(id_usuario) from clientes";
 		PreparedStatement ps2 = conexion.prepareStatement(consulta2);
 		ResultSet res2 = ps2.executeQuery();
@@ -288,14 +297,15 @@ public class Metodos {
 		if (res2.next()) {
 			idUsuario = res2.getInt(1);
 		}
-
+		
 		System.out.println("Introduce datos de los pedidos: ");
 
 		String consultaRes = "select nombre FROM restaurantes";
 		String parametro = "nombre";
 		System.out.println("Lista de restaurantes para comprar");
 		String restaurante = Metodos.buscarYAgregar(input, conexion, consultaRes, parametro);
-
+		input.nextLine();
+		
 		descripcionTotalCompra = "Total euros compra: ";
 		String totalCompraS = validarNumero(input, descripcionTotalCompra);
 		int totalCompra = insertarNumero(totalCompraS);
@@ -303,45 +313,44 @@ public class Metodos {
 
 		LocalDate fecha = LocalDate.now();
 		String fechaCompra = fecha.toString();
-		
+
 		System.out.println("Datalles del pedido");
-		
+
 		System.out.println("Informacion del restaurante");
 
 		System.out.print("Direccion Inicial Calle: ");
 		String calleIni = input.nextLine();
 
-		descripcionNumeroInicial = "Numero ini: ";
+		descripcionNumeroInicial = "Numero de edifico: ";
 		String numeroInicialS = validarNumero(input, descripcionNumeroInicial);
 		int numeroInicial = insertarNumero(numeroInicialS);
 
-		System.out.print("Ciudad ini: ");
+		System.out.print("Ciudad inicial del pedido: ");
 		String ciudadIni = input.nextLine();
 
-		descripcionCodigoInicial = "Codigo ini: ";
+		descripcionCodigoInicial = "Codigo postal inicial del pedido: ";
 		String codigoInicialS = validarNumero(input, descripcionCodigoInicial);
 		int codigoInicial = insertarNumero(codigoInicialS);
-
-		System.out.print("Calle fin: ");
+		
+		System.out.println("Informacion donde se entragará el pedido");
+		
+		System.out.print("Calle final del pedido: ");
 		String calleFin = input.nextLine();
 
-		descripcionNumeroFinal = "Numero fin: ";
+		descripcionNumeroFinal = "Numero de piso : ";
 		String numeroFinalS = validarNumero(input, descripcionNumeroFinal);
 		int numeroFinal = insertarNumero(numeroFinalS);
-		
 
-		System.out.print("Ciudad final: ");
+		System.out.print("Ciudad final del pedido: ");
 		String ciudadFin = input.nextLine();
 
-		descripcionCodigoFinal = "Codigo final: ";
+		descripcionCodigoFinal = "Codigo postal: ";
 		String codigoFinalS = validarNumero(input, descripcionCodigoFinal);
 		int codigoFinal = insertarNumero(codigoFinalS);
 
-		descripcionEstado = "Estado: ";
-		String estadoS = validarNumero(input, descripcionEstado);
-		int estado = insertarNumero(estadoS);
-		
-		
+		System.out.println("estado del pedio: ");
+		boolean estado = Metodos.actualizarEstado(input);
+
 		ps.setString(1, restaurante);
 		ps.setInt(2, idUsuario);
 		ps.setInt(3, totalCompra);
@@ -354,7 +363,7 @@ public class Metodos {
 		ps.setInt(10, numeroFinal);
 		ps.setString(11, ciudadFin);
 		ps.setInt(12, codigoFinal);
-		ps.setInt(13, estado);
+		ps.setBoolean(13, estado);
 
 		ps.executeUpdate();
 		ps.clearParameters();
@@ -395,7 +404,7 @@ public class Metodos {
 		String consulta = new String();
 		String ubicacion = new String();
 		String modificacion = new String();
-		
+
 		int menu = 0, filas = 0, modificar = 0;
 		do {
 			System.out.println("Que quieres modificar en tus datos de cliente: ");
@@ -404,10 +413,10 @@ public class Metodos {
 			System.out.println("3- Apellido");
 			System.out.println("4- Calle");
 			System.out.println("5- Ciudad");
-			System.out.println("6- Numero");
+			System.out.println("6- Numero portal");
 			System.out.println("7- Codigo");
 			System.out.println("8- Movil");
-			System.out.println("9- Telenofo");
+			System.out.println("9- Telefono");
 			System.out.println("10-salir");
 			System.out.print("elige una opcion: ");
 			menu = input.nextInt();
@@ -483,7 +492,7 @@ public class Metodos {
 				ubicacion = input.nextLine();
 				input.nextLine();
 				System.out.print("\nModificar el numero de piso: ");
-				
+
 				modificar = input.nextInt();
 
 				consulta = "UPDATE clientes SET clientes.numero = ? WHERE clientes.nombre LIKE ?";
@@ -536,71 +545,70 @@ public class Metodos {
 				break;
 			}
 		} while (menu != 10);
-			
-	}		
-				
+
+	}
+
 	static void actualizarDatosPedidos(Scanner input, Connection conexion) throws SQLException {
-			String consulta = new String();
-			String ubicacion = new String();
-			String modificacion = new String();
-			
-			double modificarD= 0;
-			int menu = 0, filas = 0;
-			
-			do {
-				System.out.println("Que quieres modificar: ");
-				System.out.println("1- Nombre del Restaurante");
-				System.out.println("2- Total de la Compra");
-				System.out.println("3- Fecha de la Compra");
-				System.out.println("4- Reservas");
-				System.out.println("5- Calle Inicial");
-				System.out.println("6- Numero Inicial");
-				System.out.println("7- Ciudad Inicial");
-				System.out.println("8- Codigo Inicial");
-				System.out.println("9- Descripcion Inicial");
-				System.out.println("10- Calle final");
-				System.out.println("11- Numero final");
-				System.out.println("12- Ciudad final");
-				System.out.println("13- Codigo final");
-				System.out.println("14- Descripcion final");
-				System.out.println("15- Fecha de reembolso");
-				System.out.println("16- Monto de reembolso");
-				System.out.println("17- Estado");
-				System.out.println("18-salir");
-				System.out.print("elige una opcion: ");
-				menu = input.nextInt();
-				input.nextLine();
-				
-				switch (menu) {
-				
-				case 1: 
+		String consulta = new String();
+		String ubicacion = new String();
+		String modificacion = new String();
+		int menu = 0, filas = 0, modificar = 0;
+		do {
+			System.out.println("Que quieres modificar: ");
+			System.out.println("1- Nombre del Restaurante");
+			System.out.println("2- Total de la Compra");
+			System.out.println("3- Fecha de la Compra");
+			System.out.println("4- Reservas");
+			System.out.println("5- Calle Inicial");
+			System.out.println("6- Numero Inicial");
+			System.out.println("7- Ciudad Inicial");
+			System.out.println("8- Codigo Inicial");
+			System.out.println("9- Descripcion Inicial");
+			System.out.println("10- Calle final");
+			System.out.println("11- Numero final");
+			System.out.println("12- Ciudad final");
+			System.out.println("13- Codigo final");
+			System.out.println("14- Descripcion final");
+			System.out.println("15- Fecha de reembolso");
+			System.out.println("16- Monto de reembolso");
+			System.out.println("17- Estado");
+			System.out.println("18-salir");
+			System.out.print("elige una opcion: ");
+			menu = input.nextInt();
+			input.nextLine();
+
+			switch (menu) {
+
+			case 1:
 				System.out.print("Ingresa tu ID del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar nombre: ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.id_delivery = ? WHERE pedidos.nombre_restaurante LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 2: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 2:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
 				input.nextLine();
 				System.out.print("\nModificar El total de la compra: ");
-				modificarD = input.nextDouble();
+				modificar = input.nextInt();
 
 				consulta = "UPDATE pedidos SET pedidos.total_compra = ? WHERE pedidos.nombre LIKE ?";
-				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+
 				System.out.printf("se han modificados %d filas%n", filas);
-				
+
 				break;
-				
-				case 3: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 3:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
 				input.nextLine();
 				System.out.print("\nModificar Fecha de la compra: ");
@@ -608,335 +616,346 @@ public class Metodos {
 
 				consulta = "UPDATE pedidos SET pedidos.fecha_compra= ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			
+
 				System.out.printf("se han modificados %d filas%n", filas);
-				
+
 				break;
-				
-				case 4: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 4:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar reservas: ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.reservas = ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 5: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 5:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-		
+
 				System.out.print("\nModificar la calle inicial: ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.calle_ini = ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 6: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 6:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-		
+
 				System.out.print("\nModificar Numero de edificio restaurante: ");
-				modificarD = input.nextDouble();
+				modificar = input.nextInt();
 
 				consulta = "UPDATE pedidos SET pedidos.numero_ini= ? WHERE pedidos.nombre LIKE ?";
-				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 7: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 7:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-			
+
 				System.out.print("\nModificar ciudad del donde se realiza el pedido (donde inicia): ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.ciudad_ini= ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-					
-				
-				case 8: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 8:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar codigo postal inicial: ");
-				modificarD = input.nextDouble();
+				modificar = input.nextInt();
 				input.nextLine();
 				consulta = "UPDATE pedidos SET pedidos.codigo_ini= ? WHERE pedidos.nombre LIKE ?";
-				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 9: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 9:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-			
+
 				System.out.print("\nModificar Editar Descripcion inicil de ubicacion de pedido: ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.descripcion_ini= ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 10: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 10:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar calle final del pedido: ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.calle_fin= ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 11: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 11:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar Numero de piso cliente: ");
-				modificarD = input.nextDouble();
+				modificar = input.nextInt();
 				input.nextLine();
 				consulta = "UPDATE pedidos SET pedidos.numero_fin = ? WHERE pedidos.nombre LIKE ?";
-				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 12: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 12:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar ciudad del donde se realiza el pedido (donde finaliza): ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.ciudad_fin = ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-					
-				case 13: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 13:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar codigo postal final: ");
-				modificarD = input.nextDouble();
+				modificar = input.nextInt();
 
 				consulta = "UPDATE pedidos SET pedidos.codigo_fin= ? WHERE pedidos.nombre LIKE ?";
-				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-					
-				case 14: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 14:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar Editar Descripcion final de ubicacion de pedido: ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.descripcion_fin= ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 15: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 15:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar Fecha de reembolso: ");
 				modificacion = input.nextLine();
 
 				consulta = "UPDATE pedidos SET pedidos.fecha_reembolso= ? WHERE pedidos.nombre LIKE ?";
 				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				case 16: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 16:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar Monto de reembolso: ");
-				modificarD = input.nextDouble();
+				modificar = input.nextInt();
 				input.nextLine();
-				
+
 				consulta = "UPDATE pedidos SET pedidos.monto_reembolso= ? WHERE pedidos.nombre LIKE ?";
-				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				
-				case 17: System.out.print("Ingresa el nombre del restaurante: ");
+
+			case 17:
+				System.out.print("Ingresa el nombre del restaurante: ");
 				ubicacion = input.nextLine();
-				
+
 				System.out.print("\nModificar Estado: ");
-				modificarD = input.nextDouble();
+				modificar = input.nextInt();
 				input.nextLine();
 				consulta = "UPDATE pedidos SET pedidos.estado= ? WHERE pedidos.nombre LIKE ?";
-				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-				
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+
 				System.out.printf("se han modificados %d filas%n", filas);
 				System.out.println();
 				break;
-				
-				default:
-					System.out.println("Opcion incorrecta");
-					break;
-				
-				}
-		
-			} while (menu != 18);
 
+			default:
+				System.out.println("Opcion incorrecta");
+				break;
+
+			}
+
+		} while (menu != 18);
 
 	}
-	
-	static void actualizarDatosRestaurante (Connection conexion, Scanner input) throws SQLException {
+
+	static void actualizarDatosRestaurante(Connection conexion, Scanner input) throws SQLException {
 		String consulta = new String();
 		String ubicacion = new String();
 		String modificacion = new String();
 		int menu = 0, filas = 0, modificar = 0;
 		do {
-		System.out.println("Que quieres modificar: ");
-		System.out.println("1- Nombre");
-		System.out.println("2- Calle");
-		System.out.println("3- Numero");
-		System.out.println("4- Ciudad");
-		System.out.println("5- Codigo");
-		System.out.println("6- Movil");
-		System.out.println("7- Telefono");
-		System.out.println("8- Salir");
-		System.out.print("Elige una opcion: ");
-		menu = input.nextInt();
+			System.out.println("Que quieres modificar: ");
+			System.out.println("1- Nombre");
+			System.out.println("2- Calle");
+			System.out.println("3- Numero");
+			System.out.println("4- Ciudad");
+			System.out.println("5- Codigo");
+			System.out.println("6- Movil");
+			System.out.println("7- Telefono");
+			System.out.println("8- Salir");
+			System.out.print("Elige una opcion: ");
+			menu = input.nextInt();
 
-		switch (menu) {
+			switch (menu) {
 
-		case 1:
-		System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
-		ubicacion = input.nextLine();
-		input.nextLine();
-		System.out.print("\nModificar Nombre: ");
-		modificacion = input.nextLine();
+			case 1:
+				System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar Nombre: ");
+				modificacion = input.nextLine();
 
-		consulta = "UPDATE restaurantes SET restaurantes.nombre = ? WHERE restaurantes.nombre LIKE ?";
-		filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-		input.nextLine();
-		System.out.printf("se han modificados %d filas%n", filas);
-		System.out.println();
-		break;
-		case 2:
-		System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
-		ubicacion = input.nextLine();
-		input.nextLine();
-		System.out.print("\nModificar Calle: ");
-		modificacion = input.nextLine();
+				consulta = "UPDATE restaurantes SET restaurantes.nombre = ? WHERE restaurantes.nombre LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 2:
+				System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar Calle: ");
+				modificacion = input.nextLine();
 
-		consulta = "UPDATE restaurantes SET restaurantes.calle = ? WHERE restaurantes.calle LIKE ?";
-		filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-		input.nextLine();
-		System.out.printf("se han modificados %d filas%n", filas);
-		System.out.println();
-		break;
-		case 3:
-		System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
-		ubicacion = input.nextLine();
-		input.nextLine();
-		System.out.print("\nModificar Numero: ");
-		modificar = input.nextInt();
-		
-		consulta = "UPDATE restaurantes SET restaurantes.numero = ? WHERE restaurantes.numero LIKE ?";
-		filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
-		input.nextLine();
-		System.out.printf("se han modificados %d filas%n", filas);
-		System.out.println();
-		break;
-		case 4:
-		System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
-		ubicacion = input.nextLine();
-		input.nextLine();
-		System.out.print("\nModificar Ciudad: ");
-		modificacion = input.nextLine();
+				consulta = "UPDATE restaurantes SET restaurantes.calle = ? WHERE restaurantes.calle LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 3:
+				System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar Numero: ");
+				modificar = input.nextInt();
 
-		consulta = "UPDATE restaurantes SET restaurantes.ciudad = ? WHERE restaurantes.ciudad LIKE ?";
-		filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-		input.nextLine();
-		System.out.printf("se han modificados %d filas%n", filas);
-		System.out.println();
-		break;
-		case 5:
-		System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
-		ubicacion = input.nextLine();
-		input.nextLine();
-		System.out.print("\nModificar Codigo: ");
-		modificar = input.nextInt();
+				consulta = "UPDATE restaurantes SET restaurantes.numero = ? WHERE restaurantes.numero LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 4:
+				System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar Ciudad: ");
+				modificacion = input.nextLine();
 
-		consulta = "UPDATE restaurantes SET restaurantes.código = ? WHERE restaurantes.código LIKE ?";
-		filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
-		input.nextLine();
-		System.out.printf("se han modificados %d filas%n", filas);
-		System.out.println();
-		break;
-		case 6:
-		System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
-		ubicacion = input.nextLine();
-		input.nextLine();
-		System.out.print("\nModificar Movil: ");
-		modificar = input.nextInt();
+				consulta = "UPDATE restaurantes SET restaurantes.ciudad = ? WHERE restaurantes.ciudad LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 5:
+				System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar Codigo: ");
+				modificar = input.nextInt();
 
-		consulta = "UPDATE restaurantes SET restaurantes.móvil = ? WHERE restaurantes.móvil LIKE ?";
-		filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
-		input.nextLine();
-		System.out.printf("se han modificados %d filas%n", filas);
-		System.out.println();
-		break;
-		case 7:
-		System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
-		ubicacion = input.nextLine();
-		input.nextLine();
-		System.out.print("\nModificar Telefono: ");
-		modificar = input.nextInt();
+				consulta = "UPDATE restaurantes SET restaurantes.código = ? WHERE restaurantes.código LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 6:
+				System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar Movil: ");
+				modificar = input.nextInt();
 
-		consulta = "UPDATE restaurantes SET restaurantes.telefono = ? WHERE restaurantes.telefono LIKE ?";
-		filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
-		input.nextLine();
-		System.out.printf("se han modificados %d filas%n", filas);
-		System.out.println();
-		break;
-		
-		default:
-		System.out.println("Opcion incorrecta");
-		break;
-		}
+				consulta = "UPDATE restaurantes SET restaurantes.móvil = ? WHERE restaurantes.móvil LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 7:
+				System.out.print("Ingresa el nombre del restaurante que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar Telefono: ");
+				modificar = input.nextInt();
+
+				consulta = "UPDATE restaurantes SET restaurantes.telefono = ? WHERE restaurantes.telefono LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+
+			default:
+				System.out.println("Opcion incorrecta");
+				break;
+			}
 
 		} while (menu != 8);
 
-		}
+	}
 
-	static void actualizarDatosRiders (Connection conexion, Scanner input) throws SQLException {
+	static void actualizarDatosRiders(Connection conexion, Scanner input) throws SQLException {
 		String consulta = new String();
 		String ubicacion = new String();
 		String modificacion = new String();
-		
+
 		int menu = 0, filas = 0, modificar = 0;
-		
+
 		do {
 			System.out.println("Que quieres modificar: ");
 			System.out.println("1- Nombre");
@@ -950,168 +969,187 @@ public class Metodos {
 			System.out.println("9- Teléfono");
 			System.out.print("Elige una opcion: ");
 			menu = input.nextInt();
-		
-		switch (menu) {
-		case 1:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar nombre: ");
-			modificacion = input.nextLine();
 
-			consulta = "UPDATE riders SET riders.nombre = ? WHERE riders.nombre LIKE ?";
-			filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		case 2:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar apellido: ");
-			modificacion = input.nextLine();
+			switch (menu) {
+			case 1:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar nombre: ");
+				modificacion = input.nextLine();
 
-			consulta = "UPDATE riders SET riders.apellidos = ? WHERE riders.apellidos LIKE ?";
-			filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		case 3:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar identificación: ");
-			modificacion = input.nextLine();
+				consulta = "UPDATE riders SET riders.nombre = ? WHERE riders.nombre LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 2:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar apellido: ");
+				modificacion = input.nextLine();
 
-			consulta = "UPDATE riders SET riders.identificación = ? WHERE riders.identificación LIKE ?";
-			filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		case 4:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar calle: ");
-			modificacion = input.nextLine();
+				consulta = "UPDATE riders SET riders.apellidos = ? WHERE riders.apellidos LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 3:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar identificación: ");
+				modificacion = input.nextLine();
 
-			consulta = "UPDATE riders SET riders.calle = ? WHERE riders.calle LIKE ?";
-			filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		case 5:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar numero: ");
-			modificar = input.nextInt();
+				consulta = "UPDATE riders SET riders.identificación = ? WHERE riders.identificación LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 4:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar calle: ");
+				modificacion = input.nextLine();
 
-			consulta = "UPDATE riders SET riders.numero = ? WHERE riders.numero LIKE ?";
-			filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		case 6:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar ciudad: ");
-			modificacion = input.nextLine();
+				consulta = "UPDATE riders SET riders.calle = ? WHERE riders.calle LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 5:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar numero: ");
+				modificar = input.nextInt();
 
-			consulta = "UPDATE riders SET riders.ciudad = ? WHERE riders.ciudad LIKE ?";
-			filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		case 7:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar codigo: ");
-			modificar = input.nextInt();
+				consulta = "UPDATE riders SET riders.numero = ? WHERE riders.numero LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 6:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar ciudad: ");
+				modificacion = input.nextLine();
 
-			consulta = "UPDATE riders SET riders.código = ? WHERE riders.código LIKE ?";
-			filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		case 8:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar movil: ");
-			modificar = input.nextInt();
+				consulta = "UPDATE riders SET riders.ciudad = ? WHERE riders.ciudad LIKE ?";
+				filas = Metodos.actualizarTablas(conexion, consulta, ubicacion, modificacion);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 7:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar codigo: ");
+				modificar = input.nextInt();
 
-			consulta = "UPDATE riders SET riders.móvil = ? WHERE riders.móvil LIKE ?";
-			filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		case 9:
-			System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
-			ubicacion = input.nextLine();
-			input.nextLine();
-			System.out.print("\nModificar teléfono: ");
-			modificar = input.nextInt();
+				consulta = "UPDATE riders SET riders.código = ? WHERE riders.código LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 8:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar movil: ");
+				modificar = input.nextInt();
 
-			consulta = "UPDATE riders SET riders.teléfono = ? WHERE riders.teléfono LIKE ?";
-			filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
-			input.nextLine();
-			System.out.printf("se han modificados %d filas%n", filas);
-			System.out.println();
-			break;
-		default:
-			System.out.println("Opcion incorrecta");
-			break;
-		}
-		
+				consulta = "UPDATE riders SET riders.móvil = ? WHERE riders.móvil LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			case 9:
+				System.out.print("Ingresa el nombre de la persona que quieres buscar: ");
+				ubicacion = input.nextLine();
+				input.nextLine();
+				System.out.print("\nModificar teléfono: ");
+				modificar = input.nextInt();
+
+				consulta = "UPDATE riders SET riders.teléfono = ? WHERE riders.teléfono LIKE ?";
+				filas = Metodos.actualizarTablasInt(conexion, consulta, ubicacion, modificar);
+				input.nextLine();
+				System.out.printf("se han modificados %d filas%n", filas);
+				System.out.println();
+				break;
+			default:
+				System.out.println("Opcion incorrecta");
+				break;
+			}
+
 		} while (menu != 10);
-		
+
 	}
-	
-	static String validarNumero(Scanner input, String descripcion){
-		
+
+	static String validarNumero(Scanner input, String descripcion) {
+
 		boolean detener = false;
 		String esNumero = new String();
 		do {
 			System.out.print(descripcion);
 			String numero = input.nextLine();
-			
-				if(numero.matches("^[0-9]+$")){
-					esNumero += numero;
-					detener = true;
-				}else {
-					detener = false;
-				}
-				
+
+			if (numero.matches("^[0-9]+$")) {
+				esNumero += numero;
+				detener = true;
+			} else {
+				detener = false;
+			}
+
 		} while (!detener);
-		
+
 		return esNumero;
 	}
-	
-	static int insertarNumero(String numero){
+
+	static int insertarNumero(String numero) {
 		int esNumero = 0;
-		if(numero.matches("^[0-9]+$")){
+		if (numero.matches("^[0-9]+$")) {
 			esNumero = Integer.parseInt(numero);
 		}
-		
+
 		return esNumero;
 	}
-<<<<<<< HEAD
 
-	static void codPostal(int codPostal){
+	static void codPostal(int codPostal) {
 		
 	}
-=======
+	
+	static boolean actualizarEstado(Scanner input) {
+		boolean validado = false;
+		char validar = ' ';
+		do {
+			System.out.println("afirma con un [S] como pedido finalizado");
+			System.out.println("afirma con una [N] como pedido no finalizado");
+			System.out.print("Elige una opcion: ");
+			validar = input.nextLine().toLowerCase().charAt(0);
+			
+			if(validar == 's') {
+				validado = true;
+			}else if(validar == 'n') {
+				validado = false;
+			}else {
+				System.out.println("Caracter incorrecto por favor elige [S|N]");
+			}
+			
+		} while (validar != 's' && validar != 'n');
 		
->>>>>>> main
+		return validado;
+	}
+
 }
