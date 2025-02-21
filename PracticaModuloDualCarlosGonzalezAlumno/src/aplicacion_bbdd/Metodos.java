@@ -2,8 +2,6 @@ package aplicacion_bbdd;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Metodos {
@@ -15,7 +13,7 @@ public class Metodos {
 				+ "7- Alta de datos en Clientes\n" + "8- Alta de datos en Restaurantes\n"
 				+ "9- Alta de datos en Pedidos\n" + "10- Alta de datos en Raiders\n"
 				+ "11- Modificar datos de Clientes\n" + "12- Modificar datos de Restaurantes\n"
-				+ "13- Modificar datos de Raiders\n" + "14- Modificar datos de Pedidos\n"
+				+ "13- Modificar datos de Pedidos\n" + "14- Modificar datos de Raiders\n"
 				+ "15- Eliminar datos de Clientes\n" + "16- Eliminar datos de Restaurantes\n"
 				+ "17- Eliminar datos de Raiders\n" + "18- Eliminar datos de Pedidos\n" + "19- Salir\n"
 				+ "Escoge tu opción: ");
@@ -28,9 +26,9 @@ public class Metodos {
 		PreparedStatement ps = conexion.prepareStatement(consulta);
 		ResultSet res = ps.executeQuery();
 		int contador = 0;
-		
-		
-		while (res.next()) { 
+		String resultado = new String();
+    
+		while (res.next()){ 
 			System.out.println((contador+1) + "- " + res.getString(parametro));
 			contador++;
 		}
@@ -39,18 +37,17 @@ public class Metodos {
 		res = ps.executeQuery();
 		
 		String[] datos = new String[contador];
-		
+
 		while (res.next()) { 
 			for(int i = 0; i < datos.length; i++) {
 				datos[i] = res.getString(parametro);
 			}
 		}
 		
-		System.out.println(Arrays.toString(datos));
 		System.out.print("Elige una Opcion: ");
 		int opcion = input.nextInt();
-		opcion = opcion - 1;
-		return datos[opcion];
+		resultado= datos[opcion];
+		return resultado;
 
 	}
 
@@ -298,15 +295,23 @@ public class Metodos {
 		String parametro = "nombre";
 		System.out.println("Lista de restaurantes para comprar");
 		String restaurante = Metodos.buscarYAgregar(input, conexion, consultaRes, parametro);
+<<<<<<< HEAD
 
 		descripcionTotalCompra = "Total euros compra: ";
 		String totalCompraS = validarNumero(input, descripcionTotalCompra);
 		int totalCompra = insertarNumero(totalCompraS);
+=======
+		System.out.println(restaurante);
+		System.out.print("Total euros compra: ");
+		int totalCompra = input.nextInt();
+		input.nextLine();
+>>>>>>> main
 
 		LocalDate fecha = LocalDate.now();
 		String fechaCompra = fecha.toString();
 		
 		System.out.println("Datalles del pedido");
+		
 		System.out.println("Informacion del restaurante");
 
 		System.out.print("Direccion Inicial Calle: ");
@@ -403,7 +408,7 @@ public class Metodos {
 		
 		int menu = 0, filas = 0, modificar = 0;
 		do {
-			System.out.println("Que quieres modificar: ");
+			System.out.println("Que quieres modificar en tus datos de cliente: ");
 			System.out.println("1- Clave");
 			System.out.println("2- Nombre");
 			System.out.println("3- Apellido");

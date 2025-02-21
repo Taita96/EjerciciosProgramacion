@@ -95,14 +95,14 @@ public class Principal {
 				case 11:
 					Metodos.actualizarDatosClientes(input, conexion);
 					break;
-				case 14:
-					Metodos.actualizarDatosPedidos(input, conexion);
 				case 12:
 					Metodos.actualizarDatosRestaurante(conexion, input);
 					break;
-				case 13:
+				case 14:
 					Metodos.actualizarDatosRiders(conexion, input);
-					Metodos.actualizarDatosClientes(input, conexion);
+					break;
+				case 13:
+					Metodos.actualizarDatosPedidos(input, conexion);
 					break;
 				case 15:
 					consulta = "Delete From clientes";
