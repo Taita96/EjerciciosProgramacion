@@ -62,7 +62,7 @@ public class Metodos {
 			System.out.println("No hay datos.");
 			return;
 		}
-
+		
 		do {
 			System.out.println();
 			for (int i = 1; i < numFilas; i++) {
@@ -160,7 +160,7 @@ public class Metodos {
 		System.out.print("Ubicacion de la calle: ");
 		String calle = input.nextLine();
 
-		descripcionNumero = "Número de portal: ";
+		descripcionNumero = "Número de edificio: ";
 		String numeroS = validarNumero(input, descripcionNumero);
 		int numero = insertarNumero(numeroS);
 
@@ -209,7 +209,6 @@ public class Metodos {
 
 		if (res2.next()) {
 			idRestaurant = res2.getInt(1);
-			System.out.println("id restaurantes: " + idRestaurant);
 		}
 		input.nextLine();
 
@@ -220,7 +219,6 @@ public class Metodos {
 
 		if (res3.next()) {
 			idDelivery = res3.getInt(1);
-			System.out.println("id pedidos: " + idDelivery);
 		}
 		input.nextLine();
 
