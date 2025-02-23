@@ -64,13 +64,13 @@ public class Metodos {
 		}
 
 		do {
+			System.out.println();
 			for (int i = 1; i < numFilas; i++) {
 				System.out.println(rmd.getColumnName(i) + ": " + res.getString(i));
 			}
-
+			System.out.println();
 		} while (res.next());
-		System.out.println();
-
+		
 	}
 
 	static boolean detener(Scanner input) {
@@ -1126,10 +1126,7 @@ public class Metodos {
 		return esNumero;
 	}
 
-	static void codPostal(int codPostal) {
-		
-	}
-	
+
 	static boolean actualizarEstado(Scanner input) {
 		boolean validado = false;
 		char validar = ' ';
