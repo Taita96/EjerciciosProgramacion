@@ -19,8 +19,8 @@ public class Principal {
 		boolean detener = true;
 		System.out.println("Bienvenido a la base de datos");
 		
-		
-		
+		String ubicacion = "12345";
+		System.out.println("\'%" + ubicacion + "%\'");
 		
 		try {
 			conexion = DriverManager.getConnection(server + bbdd, user, pwd);
@@ -116,7 +116,7 @@ public class Principal {
 					System.out.printf("%d tabla(s) elimina(s)%n", filas);
 					break;
 				case 17:
-					consulta = "Delete From raiders";
+					consulta = "Delete From riders";
 					filas = Metodos.elimanarTablas(conexion, consulta);
 					System.out.printf("%d tabla(s) elimina(s)%n", filas);
 					break;
