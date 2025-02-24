@@ -19,8 +19,6 @@ public class Principal {
 		boolean detener = true;
 		System.out.println("Bienvenido a la base de datos");
 		
-		String ubicacion = "12345";
-		System.out.println("\'%" + ubicacion + "%\'");
 		
 		try {
 			conexion = DriverManager.getConnection(server + bbdd, user, pwd);
